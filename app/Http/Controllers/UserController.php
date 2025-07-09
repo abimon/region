@@ -192,6 +192,8 @@ class UserController extends Controller
         if (request('password') != null) {
             $user->password = request('password');
         }
+        $user->update();
+        return response()->json(['status' => true, 'message' => 'User Updated Successfully']);
     }
 
     /**
@@ -202,9 +204,4 @@ class UserController extends Controller
         //
     }
 
-
-    //API FUNCTIONS
-    public function login() {}
-    public function register() {}
-    // public function update(User $user)
 }
