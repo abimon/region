@@ -136,7 +136,6 @@ class UserController extends Controller
      */
     public function update($id)
     {
-        dd(request('title'));
         $user=User::findOrFail($id);
         if (request('name') != null) {
             $user->name = request('name');
