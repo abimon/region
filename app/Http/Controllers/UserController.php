@@ -165,6 +165,12 @@ class UserController extends Controller
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/avatars', $fileName);
             $user->avatar = '/storage/avatars/' . $fileName;
+            $user->update();
+            return response()->json([
+                'status' => true,
+                'message' => 'User Updated Successfully',
+                'avatar' => '/storage/avatars/' . $fileName
+            ]);
         }
         if (request()->file('cover_image') != null) {
             $file = request()->file('cover_image');
