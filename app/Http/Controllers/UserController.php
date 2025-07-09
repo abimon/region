@@ -137,7 +137,6 @@ class UserController extends Controller
     public function update($id)
     {
         $user=User::findOrFail($id);
-        // return (request()->file('avatar'));
         if (request('name') != null) {
             $user->name = request('name');
         }
@@ -167,12 +166,6 @@ class UserController extends Controller
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/avatars', $fileName);
             $user->avatar = '/storage/avatars/' . $fileName;
-            $user->update();
-            return response()->json([
-                'status' => true,
-                'message' => 'User Updated Successfully',
-                'avatar' => '/storage/avatars/' . $fileName
-            ]);
         }
         if (request()->file('cover_image') != null) {
             $file = request()->file('cover_image');
@@ -193,7 +186,7 @@ class UserController extends Controller
             $user->password = request('password');
         }
         $user->update();
-        return response()->json(['status' => true, 'message' => 'User Updated Successfully']);
+        return response()->json(['status' => true, 'message' => 'User Updated Successfully','user'=>$user]);
     }
 
     /**
