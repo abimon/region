@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
 Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::post('/register', 'store');
     Route::post('/login', 'create');
-    Route::put('/update/{id}', 'update');
+    Route::post('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
     Route::put('/update-password/{id}', 'updatePassword');
 });
