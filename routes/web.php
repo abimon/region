@@ -13,7 +13,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
+    // Route::get('/', 'index');
     Route::get('/dashboard','dashboard')->middleware('auth');
 });
 Route::middleware('auth')->group(function () {
