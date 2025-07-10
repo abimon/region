@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LessonController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,4 +12,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/dashboard','dashboard')->middleware('auth');
+});
+Route::middleware('auth')->group(function () {
+    Route::resources([
+        'articles' => ArticleController::class,
+        'lessons' => LessonController::class,
+    ]);
+});

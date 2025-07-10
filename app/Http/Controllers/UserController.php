@@ -76,9 +76,9 @@ class UserController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'password' => 'required|min:8',
                     'contact' => 'required|min:9',
-                    'institution'=>'required',
-                    'dob'=>'required',
-                    'gender'=>'required',
+                    'institution' => 'required',
+                    'dob' => 'required',
+                    'gender' => 'required',
                 ]
             );
 
@@ -91,14 +91,13 @@ class UserController extends Controller
             }
 
             $user = User::create([
-
                 'name' => request('name'),
                 'contact' => request('contact'),
                 'email' => request('email'),
                 'password' => Hash::make(request('password')),
                 'institution' => request('institution'),
-                'dob'=>request('dob'),
-                'gender'=>request('gender'),
+                'dob' => request('dob'),
+                'gender' => request('gender'),
                 'role' => 'Member'
             ]);
             return response()->json([
@@ -136,7 +135,7 @@ class UserController extends Controller
      */
     public function update($id)
     {
-        $user=User::findOrFail($id);
+        $user = User::findOrFail($id);
         if (request('name') != null) {
             $user->name = request('name');
         }
@@ -196,7 +195,7 @@ class UserController extends Controller
             $user->password = request('password');
         }
         $user->update();
-        return response()->json(['status' => true, 'message' => 'User Updated Successfully','user'=>$user]);
+        return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user]);
     }
 
     /**
@@ -206,5 +205,4 @@ class UserController extends Controller
     {
         //
     }
-
 }

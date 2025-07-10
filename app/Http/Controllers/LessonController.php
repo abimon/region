@@ -10,17 +10,14 @@ use Illuminate\Support\Str;
 
 class LessonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $lessons = Lesson::join('users', 'users.id', '=', 'lessons.author_id')->select('lessons.*', 'users.name')->get();
+        $lessons = Lesson::join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
         // if request accepts json
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['lessons' => $lessons], 200);
         } else {
-            return view('', compact('lessons'));
+            return view('lessons.index', compact('lessons'));
         }
     }
 
@@ -29,7 +26,7 @@ class LessonController extends Controller
      */
     public function create()
     {
-        //
+        return view('lessons.create');
     }
 
     /**
@@ -41,13 +38,13 @@ class LessonController extends Controller
             'title' => 'required',
             'category' => 'required',
             'content' => 'required',
-            'image' => 'required',
+            'cover' => 'required',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator->errors());
         }
-        if (request()->hasFile('image')) {
-            $file = request()->file('cover_image');
+        if (request()->hasFile('cover')) {
+            $file = request()->file('cover');
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/lesson_images', $fileName);
             $path = '/storage/lesson_images/' . $fileName;
@@ -55,13 +52,13 @@ class LessonController extends Controller
         Lesson::create([
             'title' => request('title'),
             'category' => request('category'),
-            'author_id' => Auth::user()->id,
+            'instructor_id' => Auth::user()->id,
             'content' => request('content'),
-            'image' => request('image'),
-            'slug' => Str::make(request('title'), '_'),
-            'isPublished' => request('isPublished'),
+            'image' => $path,
+            'slug' => Str::slug(str_replace('?', '', request('title')), '-'),
+            'isPublished' => request('isPublished') ?? false,
         ]);
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['message' => 'Lesson created successfully'], 201);
         } else {
             return redirect()->route('lessons.index')->with('success', 'Lesson created successfully');
@@ -73,7 +70,11 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson)
     {
-        //
+        if (request()->is('api/*')) {
+            return response()->json(['lesson' => $lesson], 200);
+        } else {
+            return view('lessons.show', compact('lesson'));
+        }
     }
 
     /**
@@ -81,7 +82,7 @@ class LessonController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        //
+        return view('lessons.edit', compact('lesson'));
     }
 
     /**
@@ -91,7 +92,7 @@ class LessonController extends Controller
     {
         if (request('title') != null) {
             $lesson->title = request('title');
-            $lesson->slug = Str::make(request('title'));
+            $lesson->slug = Str::slug(str_replace('?', '', request('title')), '-');
         }
         if (request('category') != null) {
             $lesson->category = request('category');
@@ -99,8 +100,8 @@ class LessonController extends Controller
         if (request('content') != null) {
             $lesson->content = request('content');
         }
-        if (request('image') != null) {
-            $file = request()->file('cover_image');
+        if (request('cover') != null) {
+            $file = request()->file('cover');
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/lesson_images', $fileName);
             $lesson->image = '/storage/lesson_images/' . $fileName;
@@ -109,7 +110,7 @@ class LessonController extends Controller
             $lesson->isPublished = request('isPublished');
         }
         $lesson->update();
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['message' => 'Lesson updated successfully'], 200);
         } else {
             return redirect()->route('lessons.show', $lesson->id)->with('success', 'Lesson updated successfully');
@@ -121,6 +122,11 @@ class LessonController extends Controller
      */
     public function destroy(Lesson $lesson)
     {
-        //
+        Lesson::destroy($lesson->id);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'Lesson deleted successfully'], 200);
+        } else {
+            return redirect()->route('lessons.index')->with('success', 'Lesson deleted successfully');
+        }
     }
 }

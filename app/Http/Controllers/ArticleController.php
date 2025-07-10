@@ -15,12 +15,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name')->get();
+        $articles = Article::join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
         // if request accepts json
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['articles' => $articles], 200);
         } else {
-            return view('', compact('articles'));
+            return view('articles.index', compact('articles'));
         }
     }
 
@@ -29,7 +29,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('articles.create');
     }
 
     /**
@@ -41,13 +41,13 @@ class ArticleController extends Controller
             'title' => 'required',
             'category' => 'required',
             'content' => 'required',
-            'image' => 'required',
+            'cover' => 'required',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator->errors());
         }
-        if (request()->hasFile('image')) {
-            $file = request()->file('cover_image');
+        if (request()->hasFile('cover')) {
+            $file = request()->file('cover');
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/article_images', $fileName);
             $path = '/storage/article_images/' . $fileName;
@@ -57,11 +57,11 @@ class ArticleController extends Controller
             'category' => request('category'),
             'author_id' => Auth::user()->id,
             'content' => request('content'),
-            'image' => request('image'),
-            'slug' => Str::make(request('title'), '_'),
-            'isPublished' => request('isPublished'),
+            'image' => $path,
+            'slug' => Str::slug(str_replace('?', '', request('title')), '-'),
+            'isPublished' => request('isPublished')??false,
         ]);
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['message' => 'Article created successfully'], 201);
         } else {
             return redirect()->route('articles.index')->with('success', 'Article created successfully');
@@ -73,7 +73,11 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        if(request()->is('api/*')) {
+            return response()->json(['article'=> $article],200);
+        }else{
+            return view('articles.show', compact('article'));
+        }
     }
 
     /**
@@ -81,7 +85,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -91,7 +95,7 @@ class ArticleController extends Controller
     {
         if (request('title') != null) {
             $article->title = request('title');
-            $article->slug = Str::make(request('title'));
+            $article->slug = Str::slug(str_replace('?', '', request('title')),'-');
         }
         if (request('category') != null) {
             $article->category = request('category');
@@ -99,8 +103,8 @@ class ArticleController extends Controller
         if (request('content') != null) {
             $article->content = request('content');
         }
-        if (request('image') != null) {
-            $file = request()->file('cover_image');
+        if (request('cover') != null) {
+            $file = request()->file('cover');
             $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
             $file->move('storage/article_images', $fileName);
             $article->image = '/storage/article_images/' . $fileName;
@@ -109,7 +113,7 @@ class ArticleController extends Controller
             $article->isPublished = request('isPublished');
         }
         $article->update();
-        if (request()->wantsJson()) {
+        if (request()->is('api/*')) {
             return response()->json(['message' => 'Article updated successfully'], 200);
         } else {
             return redirect()->route('articles.show', $article->id)->with('success', 'Article updated successfully');
@@ -121,6 +125,11 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        Article::destroy($article->id);
+        if (request()->is('api/*')) {
+            return response()->json(['message'=> 'Article deleted successfully'], 200);
+        }else{
+            return redirect()->route('articles.index')->with('success', 'Article deleted successfully');
+        }
     }
 }
