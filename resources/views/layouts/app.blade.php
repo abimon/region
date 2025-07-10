@@ -124,8 +124,8 @@
                         </a>
                         <div class="collapse" id="lessons">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('lessons.index') }}">View Articles</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('lessons.create') }}">Create Article</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('lessons.index') }}">View Lessons</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('lessons.create') }}">Create Lessons</a></li>
                             </ul>
                         </div>
                     </li>
