@@ -19,7 +19,7 @@
                     </h5>
                     <div style="height:20px; overflow:hidden;" class='mb-3'><?php echo html_entity_decode($lesson->content); ?></div>
                     <div class="d-flex justify-content-between">
-                        <p class="text-muted fw-bold"><i class="fa fa-user"></i> <i>{{ $lesson->author->name }}</i></p>
+                        <p class="text-muted fw-bold"><i class="fa fa-user"></i> <i>{{ $lesson->instructor }}</i></p>
                         <p class="text-muted fw-bold"><i class="fa fa-clock"></i> {{ $lesson->created_at->diffForHumans() }}</p>
                     </div>
                     <a href="{{ route('lessons.show', $lesson->id) }}" class="btn btn-primary">Read more</a>
