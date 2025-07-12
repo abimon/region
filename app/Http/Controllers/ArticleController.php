@@ -15,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
+        $articles = Article::where('isPublished', true)->join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
         // if request accepts json
         if (request()->is('api/*')) {
             return response()->json(['articles' => $articles], 200);

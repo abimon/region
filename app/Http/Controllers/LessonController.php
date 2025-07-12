@@ -12,7 +12,7 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
+        $lessons = Lesson::where('isPublished',true)->join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
         // if request accepts json
         if (request()->is('api/*')) {
             return response()->json(['lessons' => $lessons], 200);

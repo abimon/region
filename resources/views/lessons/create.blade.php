@@ -46,7 +46,7 @@
                         <label for="title" class="form-label"><b>Category</b></label>
                         <select name="category" id="" class="form-select text-dark bg-white" required>
                             <option value="" disabled selected>Select Category</option>
-                            <?php $options = ['General', 'Lifestyle', 'Spiritual', 'Leadership', 'Physical', 'Finances', 'Social']; ?>
+                            <?php $options = ['General', 'Honor','Workshop','Book Review','Other']; ?>
                             @foreach ($options as $option)
                             <option value="{{$option}}">{{$option}}</option>
                             @endforeach
