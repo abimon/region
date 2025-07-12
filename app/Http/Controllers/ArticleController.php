@@ -15,11 +15,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('isPublished', true)->join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
         // if request accepts json
         if (request()->is('api/*')) {
+            $articles = Article::where('isPublished', true)->join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
             return response()->json(['articles' => $articles], 200);
         } else {
+            $articles = Article::join('users', 'users.id', '=', 'articles.author_id')->select('articles.*', 'users.name as author')->get();
             return view('articles.index', compact('articles'));
         }
     }

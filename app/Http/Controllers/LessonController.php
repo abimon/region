@@ -12,11 +12,12 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::where('isPublished',true)->join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
         // if request accepts json
         if (request()->is('api/*')) {
+            $lessons = Lesson::where('isPublished', true)->join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
             return response()->json(['lessons' => $lessons], 200);
         } else {
+            $lessons = Lesson::join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
             return view('lessons.index', compact('lessons'));
         }
     }
