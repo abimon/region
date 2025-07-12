@@ -19,7 +19,7 @@
                     </h5>
                     <div style="height:20px; overflow:hidden;" class='mb-3'><?php echo html_entity_decode($article->content); ?></div>
                     <div class="d-flex justify-content-between">
-                        <p class="text-muted fw-bold"><i class="fa fa-user"></i> <i>{{ $article->author->name }}</i></p>
+                        <p class="text-muted fw-bold"><i class="fa fa-user"></i> <i>{{ $article->author }}</i></p>
                         <p class="text-muted fw-bold"><i class="fa fa-clock"></i> {{ $article->created_at->diffForHumans() }}</p>
                     </div>
                     <a href="{{ route('articles.show', $article->id) }}" class="btn btn-primary">Read more</a>
