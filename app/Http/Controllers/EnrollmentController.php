@@ -50,7 +50,7 @@ class EnrollmentController extends Controller
     public function show($id)
     {
         if (request()->is('api/*')) {
-            $enrollments = Enrollment::where('user_id', $id)->join('lessons', 'lessons.id', '=', 'enrollments.lesson_id')->join('users', 'users.id', '=', 'lessons.instruct_id')->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*', 'users.name as instructor_name')->get();
+            $enrollments = Enrollment::where('user_id', $id)->join('lessons', 'lessons.id', '=', 'enrollments.lesson_id')->join('users', 'users.id', '=', 'lessons.instructor_id')->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*', 'users.name as instructor_name')->get();
             return response()->json(['lessons' => $enrollments]);
         } else {
             $enrollment = Enrollment::findOrFail($id);
