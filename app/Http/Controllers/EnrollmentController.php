@@ -31,7 +31,8 @@ class EnrollmentController extends Controller
      */
     public function store()
     {
-        if (!Enrollment::where([['user_id', request('user_id')], ['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5) {
+        $status = Enrollment::where([['user_id', request('user_id')], ['lesson_id', request('lesson_id')]])->exists();
+        if (!$status && Enrollment::where('user_id', request('user_id'))->count() < 5) {
             Enrollment::create([
                 'user_id' => request('user_id'),
                 'lesson_id' => request('lesson_id'),
