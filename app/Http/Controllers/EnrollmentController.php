@@ -10,7 +10,8 @@ class EnrollmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         $enrollments = Enrollment::all();
         return view("enrollments.index", compact("enrollments"));
     }
@@ -28,7 +29,8 @@ class EnrollmentController extends Controller
      */
     public function store()
     {
-        if(!Enrollment::where([['user_id', request('user_id')],['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5){
+        dd(request());
+        if (!Enrollment::where([['user_id', request('user_id')], ['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5) {
             Enrollment::create([
                 'user_id' => request('user_id'),
                 'lesson_id' => request('lesson_id'),
@@ -43,7 +45,7 @@ class EnrollmentController extends Controller
         }
     }
 
-  
+
     public function show($id)
     {
         if (request()->is('api/*')) {
