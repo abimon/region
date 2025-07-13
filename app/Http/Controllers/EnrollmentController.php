@@ -28,10 +28,10 @@ class EnrollmentController extends Controller
      */
     public function store()
     {
-        if(!Enrollment::where([['student_id', request('student_id')],['course_id', request('course_id')]])->exists() || Enrollment::where('student_id', request('student_id'))->count() < 5){
+        if(!Enrollment::where([['user_id', request('user_id')],['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5){
             Enrollment::create([
-                'student_id' => request('student_id'),
-                'course_id' => request('course_id'),
+                'user_id' => request('user_id'),
+                'lesson_id' => request('lesson_id'),
             ]);
             if (request()->is('api/*')) {
                 return response()->json([
@@ -47,7 +47,7 @@ class EnrollmentController extends Controller
     public function show($id)
     {
         if (request()->is('api/*')) {
-            $enrollments = Enrollment::where('student_id', $id)->join('users', 'users.id', '=', 'enrollments.student_id')->get();
+            $enrollments = Enrollment::where('user_id', $id)->join('users', 'users.id', '=', 'enrollments.user_id')->get();
             return response()->json(['lessons' => $enrollments]);
         } else {
             $enrollment = Enrollment::findOrFail($id);
