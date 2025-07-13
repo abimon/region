@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
-use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
@@ -32,15 +31,26 @@ class EnrollmentController extends Controller
      */
     public function store()
     {
-        return 'success';
+        if (!Enrollment::where([['user_id', request('user_id')], ['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5) {
+            Enrollment::create([
+                'user_id' => request('user_id'),
+                'lesson_id' => request('lesson_id'),
+            ]);
+            if (request()->is('api/*')) {
+                return response()->json([
+                    'message' => 'Enrollment created successfully',
+                ]);
+            } else {
+                return redirect()->route('enrollments.index')->with('success', 'Enrollment created successfully');
+            }
+        }
     }
 
 
     public function show($id)
     {
         if (request()->is('api/*')) {
-            // $enrollments = Enrollment::where('user_id', $id)->join('lessons', 'lessons.id', '=', 'enrollments.lesson_id')->join('users', 'users.id', '=', 'lessons.instructor_id')->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*', 'users.name as instructor')->get();
-            $enrollments = Lesson::join('enrollments', 'lessons.id', '=', 'enrollments.lesson_id')->where('enrollments.user_id', $id)->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*')->get();
+            $enrollments = Enrollment::where('user_id', $id)->join('lessons', 'lessons.id', '=', 'enrollments.lesson_id')->join('users', 'users.id', '=', 'lessons.instructor_id')->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*', 'users.name as instructor')->get();
             return response()->json(['lessons' => $enrollments]);
         } else {
             $enrollment = Enrollment::findOrFail($id);
