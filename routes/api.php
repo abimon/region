@@ -20,17 +20,21 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::put('/update-password/{id}', 'updatePassword');
 });
 Route::controller(LessonController::class)->prefix('/lessons')->group(function () {
+    Route::get('/','index');
     Route::post('/store', 'store');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
     Route::get('/show/{id}', 'show');
 });
 Route::controller(EnrollmentController::class)->prefix('/enrollments')->group(function () {
+    Route::get('/','index');
     Route::post('/store', 'store');
     ROute::get('show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
 });
 Route::controller(ArticleController::class)->prefix('/articles')->group(function () {
+    Route::get('/','index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
