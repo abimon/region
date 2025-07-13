@@ -21,7 +21,7 @@ class EnrollmentController extends Controller
      */
     public function create()
     {
-        //
+        return 'success';
     }
 
     /**
