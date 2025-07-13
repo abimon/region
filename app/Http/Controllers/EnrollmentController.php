@@ -19,7 +19,7 @@ class EnrollmentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    
+
     public function create()
     {
         // dd(request());
@@ -50,7 +50,7 @@ class EnrollmentController extends Controller
     public function show($id)
     {
         if (request()->is('api/*')) {
-            $enrollments = Enrollment::where('user_id', $id)->join('users', 'users.id', '=', 'enrollments.user_id')->get();
+            $enrollments = Enrollment::where('user_id', $id)->join('lessons', 'lessons.id', '=', 'enrollments.lesson_id')->select('enrollments.status', 'enrollments.id as lesson_id','lessons.*')->get();
             return response()->json(['lessons' => $enrollments]);
         } else {
             $enrollment = Enrollment::findOrFail($id);
