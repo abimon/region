@@ -21,6 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
-        'enrollmets'=>EnrollmentController::class
+        'enrollments'=>EnrollmentController::class
     ]);
 });
