@@ -23,19 +23,7 @@ class EnrollmentController extends Controller
     public function create()
     {
         // dd(request());
-        if (!Enrollment::where([['user_id', request('user_id')], ['lesson_id', request('lesson_id')]])->exists() || Enrollment::where('user_id', request('user_id'))->count() < 5) {
-            Enrollment::create([
-                'user_id' => request('user_id'),
-                'lesson_id' => request('lesson_id'),
-            ]);
-            if (request()->is('api/*')) {
-                return response()->json([
-                    'message' => 'Enrollment created successfully',
-                ]);
-            } else {
-                return redirect()->route('enrollments.index')->with('success', 'Enrollment created successfully');
-            }
-        }
+        
     }
 
     /**

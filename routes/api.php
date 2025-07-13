@@ -21,5 +21,5 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
 Route::resources([
     'articles'=> ArticleController::class,
     'lessons'=>LessonController::class,
-    'enrollments'=>EnrollmentController::class,
+    'enrolls'=>EnrollmentController::class,
 ]);
