@@ -19,13 +19,13 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::delete('/delete/{id}', 'delete');
     Route::put('/update-password/{id}', 'updatePassword');
 });
-Route::controller(LessonController::class)->prefix('/lesson')->group(function () {
+Route::controller(LessonController::class)->prefix('/lessons')->group(function () {
     Route::post('/store', 'store');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
     Route::get('/show/{id}', 'show');
 });
-Route::controller(EnrollmentController::class)->prefix('/enrollment')->group(function () {
+Route::controller(EnrollmentController::class)->prefix('/enrollments')->group(function () {
     Route::post('/store', 'store');
     ROute::get('show/{id}', 'show');
     Route::delete('/delete/{id}', 'delete');
