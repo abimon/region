@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -20,4 +21,5 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
 Route::resources([
     'articles'=> ArticleController::class,
     'lessons'=>LessonController::class,
+    'enrollments'=>EnrollmentController::class,
 ]);
