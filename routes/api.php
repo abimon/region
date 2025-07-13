@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,20 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::delete('/delete/{id}', 'delete');
     Route::put('/update-password/{id}', 'updatePassword');
 });
-Route::resources([
-    'articles'=> ArticleController::class,
-    'lessons'=>LessonController::class,
-    'enrolls'=>EnrollmentController::class,
-]);
+Route::controller(LessonController::class)->prefix('/lesson')->group(function () {
+    Route::post('/store', 'store');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+    Route::get('/show/{id}', 'show');
+});
+Route::controller(EnrollmentController::class)->prefix('/enrollment')->group(function () {
+    Route::post('/store', 'store');
+    ROute::get('show/{id}', 'show');
+    Route::delete('/delete/{id}', 'delete');
+});
+Route::controller(ArticleController::class)->prefix('/articles')->group(function () {
+    Route::post('/store', 'store');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+});
