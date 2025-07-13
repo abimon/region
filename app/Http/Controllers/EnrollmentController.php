@@ -10,7 +10,10 @@ class EnrollmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index() {
+        $enrollments = Enrollment::all();
+        return view("enrollments.index", compact("enrollments"));
+    }
 
     /**
      * Show the form for creating a new resource.
