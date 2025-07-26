@@ -18,18 +18,21 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $attendance = [];
-        foreach ($users as $user) {
-            array_push($attendance,['user'=>$user,'is_present'=>Attendance::whereDate('attendances.created_at', Carbon::today())->exists()]);
-        }
-        if(request()->is('api/*')){
-            return response()->json([
-                'status' => true,
-                'message' => 'All Users',
-                'users' => $users,
-                'attendance' => $attendance
-            ], 200);
-        }
+        // $attendance = [];
+        // foreach ($users as $user) {
+        //     array_push($attendance,['user'=>$user,'is_present'=>Attendance::whereDate('attendances.created_at', Carbon::today())->exists()]);
+        // }
+        // if(request()->is('api/*')){
+        //     return response()->json([
+        //         'status' => true,
+        //         'message' => 'All Users',
+        //         'users' => $users,
+        //         'attendance' => $attendance
+        //     ], 200);
+        // }
+        $attendance = User::withExists(['attendances as is_present' => function ($query) {
+            $query->whereDate('date', Carbon::today());
+        }])->get();
         return view('user.index', compact('users','attendance'));
     }
 
