@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $attendance = User::whereDoesntHave('attendances')->get();
+        $attendance = User::leftJoin('attendances', function ($join) {
+            $join->on('users.id', '=', 'attendances.user_id')
+                ->whereDate('attendances.date', Carbon::today());
+        })
+            ->whereNull('attendances.user_id')
+            ->select('users.*')
+            ->get();
         if(request()->is('api/*')){
             return response()->json([
                 'status' => true,
@@ -25,8 +32,7 @@ class UserController extends Controller
                 'attendance' => $attendance
             ], 200);
         }
-        return view('user.index', compact('users'));
-        
+        return view('user.index', compact('users','attendance'));
     }
 
     /**
