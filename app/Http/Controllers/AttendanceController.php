@@ -28,9 +28,23 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        dd(request());
+        foreach(request('present') as $pre){
+            if($pre->is_present == true){
+                Attendance::create([
+                    'user_id' => $pre->user_id,
+                ]);
+            }else{
+                Attendance::destroy($pre->user_id);
+            }
+        }
+        if(request()->is('api/*')){
+            return response()->json(['message' => 'Attendance recorded successfully']);
+        }
+        return redirect()->back()->with('success', 'Attendance recorded successfully');
+        
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
@@ -36,6 +37,13 @@ Route::controller(EnrollmentController::class)->prefix('/enrollments')->group(fu
 });
 Route::controller(ArticleController::class)->prefix('/articles')->group(function () {
     Route::get('/','index');
+    Route::post('/store', 'store');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+});
+Route::controller(AttendanceController::class)->prefix('/attendance')->group(function () {
+    Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
