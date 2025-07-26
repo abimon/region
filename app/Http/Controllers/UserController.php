@@ -19,7 +19,7 @@ class UserController extends Controller
         $users = User::all();
         $attendance = User::leftJoin('attendances', function ($join) {
             $join->on('users.id', '=', 'attendances.user_id')
-                ->whereDate('attendances.date', Carbon::today());
+                ->whereDate('attendances.created_at', Carbon::today());
         })
             ->whereNull('attendances.user_id')
             ->select('users.*')
