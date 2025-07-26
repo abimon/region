@@ -8,11 +8,12 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 Route::controller(UserController::class)->prefix('/user')->group(function () {
+    Route::get('/','index' )->middleware('auth:sanctum');;
     Route::post('/register', 'store');
     Route::post('/login', 'create');
     Route::post('/update/{id}', 'update');

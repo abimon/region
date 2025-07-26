@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
-        'enrollments'=>EnrollmentController::class
+        'enrollments'=>EnrollmentController::class,
+        'users'=>UserController::class
     ]);
 });

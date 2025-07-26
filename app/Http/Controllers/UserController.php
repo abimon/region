@@ -15,7 +15,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        if(request()->is('api/*')){
+            return response()->json([
+                'status' => true,
+                'message' => 'All Users',
+                'users' => $users
+            ], 200);
+        }
+        return view('user.index', compact('users'));
+        
     }
 
     /**

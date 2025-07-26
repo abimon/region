@@ -3,17 +3,17 @@
 @section('content')
     <div class="container-fluid">
         <!-- modal button to open modal for add user -->
-        <button class="btn btn-outline-success" data-bs-target="#addUserModal" data-bs-toggle="modal" id="addUserBtn">Add Client</button>
+        <button class="btn btn-outline-success" data-bs-target="#addUserModal" data-bs-toggle="modal" id="addUserBtn">Add User</button>
         <!-- Add User Modal -->
         <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addUserModalLabel">Add Client</h5>
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('clients.store') }}" method="POST">
+                    <form action="{{ route('users.store') }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -64,9 +64,9 @@
                             <td>{{ $user->role }}</td>
                             <td>{{ $user->created_at }}</td>
                             <td>
-                                <a href="{{ route('clients.show', $user->id) }}" class="btn btn-sm btn-primary">View</a>
-                                <a href="{{ route('clients.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('clients.destroy', $user->id) }}" method="POST" class="d-inline">
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-primary">View</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
