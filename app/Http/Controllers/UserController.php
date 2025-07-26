@@ -31,7 +31,7 @@ class UserController extends Controller
         //     ], 200);
         // }
         $attendance = User::withExists(['attendances as is_present' => function ($query) {
-            $query->whereDate('date', Carbon::today());
+            $query->whereDate('created_at', Carbon::today());
         }])->get();
         return view('user.index', compact('users','attendance'));
     }
