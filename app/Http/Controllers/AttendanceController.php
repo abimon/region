@@ -30,7 +30,7 @@ class AttendanceController extends Controller
      */
     public function store()
     {
-        // dd(request());
+        dd(request()->present);
         foreach(request('present') as $pre){
             if($pre['is_present']== true){
                 Attendance::create([
