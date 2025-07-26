@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,13 +18,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $attendance = User::leftJoin('attendances', function ($join) {
-            $join->on('users.id', '=', 'attendances.user_id')
-                ->whereDate('attendances.created_at', Carbon::today());
-        })
-            ->whereNull('attendances.user_id')
-            ->select('users.*')
-            ->get();
+        $attendance = [];
+        foreach ($users as $user) {
+            array_push($attendance,['user'=>$user,'is_present'=>Attendance::whereDate('attendances.created_at', Carbon::today())->exists()]);
+        }
         if(request()->is('api/*')){
             return response()->json([
                 'status' => true,
