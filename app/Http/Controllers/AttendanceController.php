@@ -32,12 +32,12 @@ class AttendanceController extends Controller
     {
         // dd(request());
         foreach(request('present') as $pre){
-            if($pre->is_present == true){
+            if($pre['is_present']== true){
                 Attendance::create([
-                    'user_id' => $pre->user_id,
+                    'user_id' => $pre['user_id'],
                 ]);
             }else{
-                Attendance::destroy($pre->user_id);
+                Attendance::destroy($pre['user_id']);
             }
         }
         if(request()->is('api/*')){
