@@ -16,11 +16,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $attendance = User::whereDoesntHave('attendances')->get();
         if(request()->is('api/*')){
             return response()->json([
                 'status' => true,
                 'message' => 'All Users',
-                'users' => $users
+                'users' => $users,
+                'attendance' => $attendance
             ], 200);
         }
         return view('user.index', compact('users'));
