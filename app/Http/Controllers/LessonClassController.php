@@ -85,8 +85,20 @@ class LessonClassController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LessonClass $lessonClass)
+    public function destroy($id)
     {
-        //
+        try {
+            LessonClass::destroy($id);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Lesson Class Deleted Successfully']);
+            }else{
+                return back()->with('success','Lesson Class Deleted Successfully');
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

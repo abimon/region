@@ -35,33 +35,33 @@ Route::controller(EnrollmentController::class)->prefix('/enrollments')->group(fu
     Route::post('/store', 'store');
     ROute::get('show/{id}', 'show');
     Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::delete('/delete/{id}', 'destroy');
 });
 Route::controller(ArticleController::class)->prefix('/articles')->group(function () {
     Route::get('/','index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::delete('/delete/{id}', 'destroy');
 });
 Route::controller(AttendanceController::class)->prefix('/attendance')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::delete('/delete/{id}', 'destroy');
 });
 Route::controller(RepoController::class)->prefix('/repo')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::delete('/delete/{id}', 'destroy');
 });
 Route::controller(LessonClassController::class)->middleware('auth:sanctum')->prefix('/classlessons')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::delete('/delete/{id}', 'destroy');
 });
