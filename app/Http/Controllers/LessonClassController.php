@@ -51,7 +51,10 @@ class LessonClassController extends Controller
             }
             return back()->with('success', 'Lesson Class Created Successfully');
         } catch (\Throwable $th) {
-            retry($th->getCode(), $th->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 
