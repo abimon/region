@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\LessonClass;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class LessonClassController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store()
+    {
+        try {
+            LessonClass::create([
+                'title' => request('title'),
+                'description' => request('description'),
+                'facilitator' => request('facilitator'),
+                'date' => request('date'),
+                'venue' => request('venue'),
+                'comments' => request('comments'),
+                'created_by' => Auth::user()->id,
+            ]);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Lesson Class Created Successfully']);
+            }
+            return back()->with('success', 'Lesson Class Created Successfully');
+        } catch (\Throwable $th) {
+            retry($th->getCode(), $th->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(LessonClass $lessonClass)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(LessonClass $lessonClass)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, LessonClass $lessonClass)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(LessonClass $lessonClass)
+    {
+        //
+    }
+}

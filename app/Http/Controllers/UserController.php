@@ -17,11 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        // $attendance = [];
-        // foreach ($users as $user) {
-        //     array_push($attendance,['user'=>$user,'is_present'=>Attendance::whereDate('attendances.created_at', Carbon::today())->exists()]);
-        // }
+        if(Auth::user()->role=='Admin'){
+            $users = User::all();
+        }else{
+            $users = User::where('institution',Auth::user()->institution)->get;
+        }
         $attendance = User::withExists(['attendances as is_present' => function ($query) {
             $query->whereDate('created_at', Carbon::today());
         }])->get();

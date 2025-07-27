@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Repo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RepoController extends Controller
 {
@@ -12,7 +13,11 @@ class RepoController extends Controller
      */
     public function index()
     {
-        //
+        $repos = Repo::where('owner_id',Auth::user()->id)->get();
+        if(request()->is('api/*')){
+            return $repos;
+        }
+        return view('repo.index',compact('repos'));
     }
 
     /**
@@ -26,9 +31,23 @@ class RepoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        if(request()->hasFile('file')){
+            $extension = request()->file('file')->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file = request()->file('file');
+            $file->move('storage/repos', $filename);
+        }
+        Repo::create([
+            "name"=>request('name'),
+            "description"=>request('description'),
+            "path"=>'storage/repos/'.$filename,
+            "owner_id"=>request('owner_id'),
+            "language"=>request('language'),
+            "isPublic"=>request('isPublic'),
+        ]);
+        return 'storage/repos/' . $filename;
     }
 
     /**

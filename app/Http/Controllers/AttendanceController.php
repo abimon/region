@@ -31,19 +31,23 @@ class AttendanceController extends Controller
     public function store()
     {
         // dd(request()->present);
-        foreach(request('present') as $pre){
-            if($pre['is_present']== true){
-                Attendance::create([
-                    'user_id' => $pre['id'],
-                ]);
-            }else{
-                Attendance::destroy($pre['id']);
+        try {
+            foreach (request('present') as $pre) {
+                if ($pre['is_present'] == true) {
+                    Attendance::create([
+                        'user_id' => $pre['id'],
+                    ]);
+                } else {
+                    Attendance::destroy($pre['id']);
+                }
             }
+            if (request()->is('api/*')) {
+                return response()->json(['success' => true]);
+            }
+            return redirect()->back()->with('success', 'Attendance recorded successfully');
+        } catch (\Throwable $th) {
+            return response()->json(['error'=> $th->getMessage()]);
         }
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'Attendance recorded successfully']);
-        }
-        return redirect()->back()->with('success', 'Attendance recorded successfully');
         
     }
 
