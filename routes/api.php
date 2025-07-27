@@ -44,7 +44,7 @@ Route::controller(ArticleController::class)->prefix('/articles')->group(function
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
 });
-Route::controller(AttendanceController::class)->prefix('/attendance')->group(function () {
+Route::controller(AttendanceController::class)->middleware('auth:sanctum')->prefix('/attendance')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
