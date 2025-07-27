@@ -45,7 +45,7 @@ class RepoController extends Controller
             "path"=>'storage/repos/'.$filename,
             "owner_id"=>Auth::user()->id,
             "language"=>request('language'),
-            "isPublic"=>request('isPublic')??false,
+            "isPublic"=>request('isPublic'),
         ]);
         if(request()->is('api/*')){
             return response()->json(['message'=>'Repo created successfully']);
