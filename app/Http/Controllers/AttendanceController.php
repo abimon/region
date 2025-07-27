@@ -45,6 +45,7 @@ class AttendanceController extends Controller
                 if ($pre['is_present'] == true) {
                     Attendance::create([
                         'user_id' => $pre['id'],
+                        'lesson_id' => request('lesson_id'),
                     ]);
                 } else {
                     Attendance::destroy($pre['id']);
