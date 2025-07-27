@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->string('facilitator')->nullable();
-            $table->timestamp('date');
+            $table->string('date');
             $table->string('venue')->nullable();
             $table->string('comments')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
