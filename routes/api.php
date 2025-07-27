@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\LessonClassController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\RepoController;
 use App\Http\Controllers\UserController;
@@ -51,6 +52,13 @@ Route::controller(AttendanceController::class)->prefix('/attendance')->group(fun
     Route::delete('/delete/{id}', 'delete');
 });
 Route::controller(RepoController::class)->prefix('/repo')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/store', 'store');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+});
+Route::controller(LessonClassController::class)->prefix('/classlessons')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');

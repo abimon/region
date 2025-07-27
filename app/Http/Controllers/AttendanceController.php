@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -12,9 +13,12 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //get today's attendance
+        $attendance = Attendance::where('lesson_id', request('lesson_id'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+        if(request()->is('api/*')){
+            return response()->json(['attendance'=>$attendance]);
+        }
+        return view('attendance.index', compact('attendance'));
         
-
     }
 
     /**
@@ -54,9 +58,17 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show($date)
     {
-        //
+        if(Auth::user()->role =='Admin'){
+            $attendance = Attendance::where('created_at', request('date'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*','lesson_classes.title')->get();
+        }else{
+            $attendance = Attendance::join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->where([['lesson_classes.created_by', Auth::user()->id],[]])->select('users.*')->get();
+        }
+        if (request()->is('api/*')) {
+            return response()->json(['attendance' => $attendance]);
+        }
+        return view('attendance.index', compact('attendance'));
     }
 
     /**

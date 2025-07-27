@@ -15,4 +15,7 @@ class LessonClass extends Model
         'comments',
         'created_by'
     ];
+    public function attendance(){
+        return $this->hasMany(Attendance::class,'lesson_id','id');
+    }
 }

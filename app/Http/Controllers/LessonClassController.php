@@ -13,9 +13,16 @@ class LessonClassController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->role =='Admin'){
+            $lesson = LessonClass::all();
+        }else{
+            $lesson = LessonClass::where('created_by', Auth::user()->id)->get();
+        }
+        if(request()->is('api/*')){
+            return response()->json($lesson);
+        }
+        return view('lessonclass.index', compact('lesson'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
