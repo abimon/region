@@ -80,8 +80,12 @@ class RepoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Repo $repo)
+    public function destroy($id)
     {
-        //
+        Repo::destroy($id);
+        if(request()->is('api/*')){
+            return response()->json(['message'=>'Repo deleted successfully']);
+        }
+        return back()->with('success','Repo deleted successfully');
     }
 }
