@@ -22,19 +22,15 @@ class UserController extends Controller
         }else{
             $users = User::where('institution',Auth::user()->institution)->get;
         }
-        $attendance = User::withExists(['attendances as is_present' => function ($query) {
-            $query->whereDate('created_at', Carbon::today());
-        }])->get();
         if(request()->is('api/*')){
             return response()->json([
                 'status' => true,
                 'message' => 'All Users',
                 'users' => $users,
-                'attendance' => $attendance
             ], 200);
         }
         
-        return view('user.index', compact('users','attendance'));
+        return view('user.index', compact('users'));
     }
 
     /**

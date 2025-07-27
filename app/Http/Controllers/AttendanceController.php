@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +15,12 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+        $students = User::withExists(['attendances as is_present' => function ($query) {
+            $query->whereDate('created_at', Carbon::today())->where('lesson_id', request('lesson_id'));
+        }])->get();
         $attendance = Attendance::where('lesson_id', request('lesson_id'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
         if(request()->is('api/*')){
-            return response()->json(['attendance'=>$attendance]);
+            return response()->json(['attendance'=>$attendance,'students'=>$students]);
         }
         return view('attendance.index', compact('attendance'));
         
@@ -60,13 +65,16 @@ class AttendanceController extends Controller
      */
     public function show($date)
     {
+        $students = User::withExists(['attendances as is_present' => function ($query) {
+            $query->whereDate('created_at', Carbon::today());
+        }])->get();
         if(Auth::user()->role =='Admin'){
             $attendance = Attendance::where('created_at', request('date'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*','lesson_classes.title')->get();
         }else{
             $attendance = Attendance::join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->where([['lesson_classes.created_by', Auth::user()->id],[]])->select('users.*')->get();
         }
         if (request()->is('api/*')) {
-            return response()->json(['attendance' => $attendance]);
+            return response()->json(['attendance' => $attendance,'students'=>$students]);
         }
         return view('attendance.index', compact('attendance'));
     }
