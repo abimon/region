@@ -58,7 +58,7 @@ Route::controller(RepoController::class)->prefix('/repo')->group(function () {
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
 });
-Route::controller(LessonClassController::class)->prefix('/classlessons')->group(function () {
+Route::controller(LessonClassController::class)->middleware('auth:sanctum')->prefix('/classlessons')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
