@@ -70,7 +70,7 @@ class AttendanceController extends Controller
             $query->whereDate('created_at', Carbon::today());
         }])->get();
         if(Auth::user()->role =='Admin'){
-            $attendance = Attendance::where('created_at', request('date'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*','lesson_classes.title')->get();
+            $attendance = Attendance::where('attendances.created_at', request('date'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*','lesson_classes.title')->get();
         }else{
             $attendance = Attendance::join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->where([['lesson_classes.created_by', Auth::user()->id],[]])->select('users.*')->get();
         }
