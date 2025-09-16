@@ -157,7 +157,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="{{ route('user.update', $user->id) }}">
+                                        <form method="POST" action="{{ route('users.update', $user->id) }}">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
