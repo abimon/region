@@ -2,7 +2,10 @@
 @section('content')
 <div class="container">
     @if(request()->path() != 'profile')
-    <button class="btn btn-primary" onclick="window.location.href='/users'">< Back</button>
+    <div class="mb-3">
+        <button class="btn btn-primary" onclick="window.location.href='/users'">
+            < Back</button>
+    </div>
     @endif
     <div class="row ">
         <div class="col-md-6 mb-2">
