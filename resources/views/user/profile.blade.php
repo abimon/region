@@ -80,7 +80,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-end fw-bold">Role:</div>
-                        <div class="col-md-8 text-start">{{$user->role}}</div>
+                        <div class="col-md-8 d-flex justify-content-between">{{$user->role}}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#enrollModal"><i class="fa fa-pen"></i></button>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-end fw-bold">Church:</div>
@@ -139,53 +142,41 @@
                 </form>
             </div>
         </div>
-        @else
-        <div class="col-md-6 mb-2">
-            <div class="card p-3">
-                <div class="d-flex justify-content-between mb-3">
-                    <h2 class="fw-bold">Assign Role</h2>
-                    <!-- modal button to enroll user to Program -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#enrollModal">Assign Role</button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="enrollModalLabel">Assign Role</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <form method="POST" action="{{ route('users.update', $user->id) }}">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-body" style="color:black;">
-                                        <div class="mb-3">
-                                            <label for="role" class="form-label">Select Role</label>
-                                            <select name="role" id="role" class="form-select" required>
-                                                <option selected disabled>Select Program</option>
-                                                <?php $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Member', 'Guest']; ?>
-                                                @foreach ($roles as $role)
-                                                <option value="{{ $role }}" {{ $role==$user->role?'selected':'' }}>{{ $role }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        @endif
+    </div>
+</div>
+<div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="enrollModalLabel">Assign Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('users.update', $user->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="modal-body" style="color:black;">
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Select Role</label>
+                        <select name="role" id="role" class="form-select" required>
+                            <option selected disabled>Select Program</option>
+                            <?php $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Member', 'Guest']; ?>
+                            @foreach ($roles as $role)
+                            <option value="{{ $role }}" {{ $role==$user->role?'selected':'' }}>{{ $role }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
-        @endif
     </div>
 </div>
 @endsection
