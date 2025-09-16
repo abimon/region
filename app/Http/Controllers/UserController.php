@@ -134,7 +134,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('user.profile', compact('user'));
     }
 
     /**
@@ -218,6 +218,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        User::destroy($user->id);
+        if(request()->has('api/*')){
+            return response()->json([
+                'status' => true,
+                'message' => 'User Deleted Successfully'
+            ]);
+        }else{
+            return back()->with('success', 'User Deleted Successfully');
+        }
     }
 }

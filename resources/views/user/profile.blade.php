@@ -143,10 +143,10 @@
                 <div class="col-md-6 mb-2">
                     <div class="card p-3">
                         <div class="d-flex justify-content-between mb-3">
-                            <h2 class="fw-bold">Enrolled Programs</h2>
+                            <h2 class="fw-bold">Assign Role</h2>
                             <!-- modal button to enroll user to Program -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#enrollModal">Enroll to Program</button>
+                                data-bs-target="#enrollModal">Assign Role</button>
                             <!-- Modal -->
                             <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel"
                                 aria-hidden="true">
@@ -157,15 +157,17 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="{{ route('enrollments.store', ['user_id' => $user->id]) }}">
+                                        <form method="POST" action="{{ route('user.update', $user->id) }}">
                                             @csrf
+                                            @method('PUT')
                                             <div class="modal-body">
                                                 <div class="mb-3">
-                                                    <label for="program_id" class="form-label">Select Program</label>
-                                                    <select name="program_id" id="program_id" class="form-select" required>
+                                                    <label for="role" class="form-label">Select Role</label>
+                                                    <select name="role" id="role" class="form-select" required>
                                                         <option selected disabled>Select Program</option>
-                                                        @foreach (App\Models\Program::get() as $program)
-                                                            <option value="{{ $program->id }}">{{ $program->title }}
+                                                        <?php $roles = ['CYD/FYD','Area Co-ordinator', 'Director','Ass. Director','Elder','Instructor', 'Member','Guest']; ?>
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{ $role }}">{{ $role }}
                                                             </option>
                                                         @endforeach
                                                     </select>
