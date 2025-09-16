@@ -167,7 +167,7 @@
                                                 <option selected disabled>Select Program</option>
                                                 <?php $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Member', 'Guest']; ?>
                                                 @foreach ($roles as $role)
-                                                <option value="{{ $role }}">{{ $role }}
+                                                <option value="{{ $role }}" {{ $role==$user->role?'selected':'' }}>{{ $role }}
                                                 </option>
                                                 @endforeach
                                             </select>
