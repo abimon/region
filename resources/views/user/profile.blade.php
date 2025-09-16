@@ -5,7 +5,7 @@
         <div class="col-md-6 mb-2">
             <div class="card p-3">
                 <div class="text-center">
-                    <img src="{{ $user->avatar ? $user->avatar : '/storage/images/user.png' }}" alt="" style="width:80%;object-fit:contain;">
+                    <img src="{{ $user->avatar ? $user->avatar : '/storage/images/user.png' }}" alt="" style="width:80%;height:50vh;object-fit:contain;">
                 </div>
                 @if(request()->path() == 'profile')
 
