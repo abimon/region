@@ -46,6 +46,7 @@
                 <thead>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Church</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Membership No.</th>
@@ -58,8 +59,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>{{ $user->institution }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{$user->phone }}</td>
+                            <td>{{$user->contact }}</td>
                             <td class="text-uppercase">{{ $user->membership_no }}</td>
                             <td>{{ $user->role }}</td>
                             <td>{{ $user->created_at }}</td>
