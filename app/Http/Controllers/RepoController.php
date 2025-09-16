@@ -13,13 +13,20 @@ class RepoController extends Controller
      */
     public function index()
     {
-        $repos = Repo::where('owner_id',Auth::user()->id)->get();
+        $repos = Repo::where('owner_id',Auth::user()->id)->orWhere('isPublic',true)->get();
         if(request()->is('api/*')){
             return $repos;
         }
         return view('repo.index',compact('repos'));
     }
 
+    public function repo(){
+        $repos = Repo::where('isPublic', true)->get();
+        if (request()->is('api/*')) {
+            return $repos;
+        }
+        return view('repo.index', compact('repos'));
+    }
     /**
      * Show the form for creating a new resource.
      */

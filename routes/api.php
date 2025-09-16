@@ -51,6 +51,7 @@ Route::controller(AttendanceController::class)->middleware('auth:sanctum')->pref
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
 });
+Route::get('/repository', [RepoController::class,'repo']);
 Route::controller(RepoController::class)->prefix('/repo')->middleware('auth:sanctum')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
