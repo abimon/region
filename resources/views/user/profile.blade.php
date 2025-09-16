@@ -153,7 +153,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="enrollModalLabel">Enroll to Program</h5>
+                                            <h5 class="modal-title" id="enrollModalLabel">Assign Role</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -182,37 +182,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="userTable">
-                                <thead>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Program Title</th>
-                                    <th scope="col">Enroll Date</th>
-                                    <th scope="col">Action</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($user->enrolls as $enroll)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $enroll->program->title }}</td>
-                                            <td>{{ $enroll->created_at->format('d-m-Y') }}</td>
-                                            <td>
-                                                <a href="{{ route('enrollments.show', $enroll->id) }}"
-                                                    class="btn btn-primary">View</a>
-                                                <a href="{{ route('enrollments.edit', $enroll->id) }}"
-                                                    class="btn btn-warning">Edit</a>
-                                                <form action="{{ route('enrollments.destroy', $enroll->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
