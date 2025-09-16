@@ -210,7 +210,11 @@ class UserController extends Controller
             $user->password = request('password');
         }
         $user->update();
-        return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user]);
+        if(request()->has('api/*')){
+            return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user]);
+        }else{
+            return back()->with('success', 'User Updated Successfully');
+        }
     }
 
     /**
