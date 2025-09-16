@@ -1,6 +1,9 @@
 @extends('layouts.app', ['title' => 'Profile'])
 @section('content')
 <div class="container">
+    @if(request()->path() != 'profile')
+    <button class="btn btn-primary" onclick="window.location.href='/users'">< Back</button>
+    @endif
     <div class="row ">
         <div class="col-md-6 mb-2">
             <div class="card p-3">
