@@ -67,24 +67,24 @@
                 @else
                 <div class="card p-3 mt-3">
                     <div class="row">
-                        <div class="col-md-4 text-end fw-bold">Name</div>
+                        <div class="col-md-4 text-end fw-bold">Name:</div>
                         <div class="col-md-8 text-start">{{$user->name}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 text-end fw-bold">Email</div>
+                        <div class="col-md-4 text-end fw-bold">Email:</div>
                         <div class="col-md-8 text-start">{{$user->email}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 text-end fw-bold">Contact</div>
+                        <div class="col-md-4 text-end fw-bold">Contact:</div>
                         <div class="col-md-8 text-start">{{$user->contact}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 text-end fw-bold">Role</div>
+                        <div class="col-md-4 text-end fw-bold">Role:</div>
                         <div class="col-md-8 text-start">{{$user->role}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 text-end fw-bold">Membership No.</div>
-                        <div class="col-md-8 text-start text-uppercase">{{$user->membership_no}}</div>
+                        <div class="col-md-4 text-end fw-bold">Church:</div>
+                        <div class="col-md-8 text-start text-uppercase">{{$user->institution}}</div>
                     </div>
                 </div>
                 @endif
