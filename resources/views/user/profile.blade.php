@@ -81,8 +81,8 @@
                     <div class="row">
                         <div class="col-md-4 text-end fw-bold">Role:</div>
                         <div class="col-md-8 d-flex justify-content-between">{{$user->role}}
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#enrollModal"><i class="fa fa-pen"></i></button>
+                            <i type="button" class="fa fa-pen" data-bs-toggle="modal"
+                                data-bs-target="#enrollModal"></i>
                         </div>
                     </div>
                     <div class="row">
