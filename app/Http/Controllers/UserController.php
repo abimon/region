@@ -182,14 +182,6 @@ class UserController extends Controller
                 $file->move('storage/avatars', $fileName);
                 $user->avatar = '/storage/avatars/' . $fileName;
             }
-            if (request('title') == 'license_front') {
-                $file->move('storage/licenses', $fileName);
-                $user->license_front = '/storage/licenses/' . $fileName;
-            }
-            if (request('title') == 'license_back') {
-                $file->move('storage/licenses', $fileName);
-                $user->license_back = '/storage/licenses/' . $fileName;
-            }
         }
         if (request()->file('cover_image') != null) {
             $file = request()->file('cover_image');
@@ -211,7 +203,7 @@ class UserController extends Controller
         }
         $user->update();
         if(request()->has('api/*')){
-            return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user]);
+            return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user],200);
         }else{
             return back()->with('success', 'User Updated Successfully');
         }
