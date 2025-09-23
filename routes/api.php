@@ -48,7 +48,7 @@ Route::controller(AttendanceController::class)->middleware('auth:sanctum')->pref
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
-    Route::put('/update/{id}', 'update');
+    Route::put('/update/{id}', 'apiUpdate');
     Route::delete('/delete/{id}', 'destroy');
 });
 Route::get('/repository', [RepoController::class,'repo']);
