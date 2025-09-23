@@ -57,7 +57,7 @@ class LessonController extends Controller
             'content' => request('content'),
             'image' => $path,
             'slug' => Str::slug(str_replace('?', '', request('title')), '-'),
-            'isPublished' => request('isPublished') ?? false,
+            'isPublished' => request('isPublished') ?? true,
         ]);
         if (request()->is('api/*')) {
             return response()->json(['message' => 'Lesson created successfully'], 201);
