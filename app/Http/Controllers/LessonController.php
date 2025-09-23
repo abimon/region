@@ -14,10 +14,10 @@ class LessonController extends Controller
     {
         // if request accepts json
         if (request()->is('api/*')) {
-            $lessons = Lesson::where('isPublished', true)->join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
+            $lessons = Lesson::where('isPublished', true)->join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->orderBy('lessons.created_at', 'desc')->get();
             return response()->json(['lessons' => $lessons], 200);
         } else {
-            $lessons = Lesson::join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->get();
+            $lessons = Lesson::join('users', 'users.id', '=', 'lessons.instructor_id')->select('lessons.*', 'users.name as instructor')->orderBy('lessons.created_at', 'desc')->get();
             return view('lessons.index', compact('lessons'));
         }
     }
