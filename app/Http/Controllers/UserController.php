@@ -153,68 +153,68 @@ class UserController extends Controller
     }
     public function update($id)
     {
-        return response()->json(['message' => 'User Updated Successfully'], 200);
-        // try {
-        //     $user = User::findOrFail($id);
-        //     if (request('name') != null) {
-        //         $user->name = request('name');
-        //     }
-        //     if (request('email') != null) {
-        //         $user->email = request('email');
-        //     }
-        //     if (request('contact') != null) {
-        //         $user->contact = request('contact');
-        //     }
-        //     if (request('institution') != null) {
-        //         $user->institution = request('institution');
-        //     }
-        //     if (request('dob') != null) {
-        //         $user->dob = request('dob');
-        //     }
-        //     if (request('gender') != null) {
-        //         $user->gender = request('gender');
-        //     }
-        //     if (request('address') != null) {
-        //         $user->address = request('address');
-        //     }
-        //     if (request('role') != null) {
-        //         $user->role = request('role');
-        //     }
-        //     if (request('image') != null) {
-        //         $file = request()->file('image');
-        //         $fileName = ($user->last_name) . time() . '.' . $file->getClientOriginalExtension();
-        //         if (request('title') == 'avatar') {
-        //             $file->move('storage/avatars', $fileName);
-        //             $user->avatar = '/storage/avatars/' . $fileName;
-        //         }
-        //     }
-        //     if (request()->file('cover_image') != null) {
-        //         $file = request()->file('cover_image');
-        //         $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
-        //         $file->move('storage/cover_image', $fileName);
-        //         $user->cover_image = '/storage/cover_image/' . $fileName;
-        //     }
-        //     if (request('about') != null) {
-        //         $user->about = request('about');
-        //     }
-        //     if (request('isInvested') != null) {
-        //         $user->isInvested = request('isInvested');
-        //     }
-        //     if (request('isBaptised') != null) {
-        //         $user->isBaptised = request('isBaptised');
-        //     }
-        //     if (request('password') != null) {
-        //         $user->password = request('password');
-        //     }
-        //     $user->update();
-        //     if (request()->is('api/*')) {
-        //         return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user], 200);
-        //     } else {
-        //         return back()->with('success', 'User Updated Successfully');
-        //     }
-        // } catch (\Throwable $th) {
-        //     return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
-        // }
+        // return response()->json(['message' => 'User Updated Successfully'], 200);
+        try {
+            $user = User::findOrFail($id);
+            if (request('name') != null) {
+                $user->name = request('name');
+            }
+            if (request('email') != null) {
+                $user->email = request('email');
+            }
+            if (request('contact') != null) {
+                $user->contact = request('contact');
+            }
+            if (request('institution') != null) {
+                $user->institution = request('institution');
+            }
+            if (request('dob') != null) {
+                $user->dob = request('dob');
+            }
+            if (request('gender') != null) {
+                $user->gender = request('gender');
+            }
+            if (request('address') != null) {
+                $user->address = request('address');
+            }
+            if (request('role') != null) {
+                $user->role = request('role');
+            }
+            if (request('image') != null) {
+                $file = request()->file('image');
+                $fileName = ($user->last_name) . time() . '.' . $file->getClientOriginalExtension();
+                if (request('title') == 'avatar') {
+                    $file->move('storage/avatars', $fileName);
+                    $user->avatar = '/storage/avatars/' . $fileName;
+                }
+            }
+            if (request()->file('cover_image') != null) {
+                $file = request()->file('cover_image');
+                $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
+                $file->move('storage/cover_image', $fileName);
+                $user->cover_image = '/storage/cover_image/' . $fileName;
+            }
+            if (request('about') != null) {
+                $user->about = request('about');
+            }
+            if (request('isInvested') != null) {
+                $user->isInvested = request('isInvested');
+            }
+            if (request('isBaptised') != null) {
+                $user->isBaptised = request('isBaptised');
+            }
+            if (request('password') != null) {
+                $user->password = request('password');
+            }
+            $user->update();
+            if (request()->is('api/*')) {
+                return response()->json(['status' => true, 'message' => 'User Updated Successfully', 'user' => $user], 200);
+            } else {
+                return back()->with('success', 'User Updated Successfully');
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
+        }
     }
 
     /**
