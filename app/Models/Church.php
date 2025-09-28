@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'district',
+        'station',
+        'conference',
+        'union',
+        'conference',
+        'is_approved',
+    ];
 }

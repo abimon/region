@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('churches', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('district');
+            $table->string('station');
+            $table->string('conference');
+            $table->string('union');
+            $table->string('conference');
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }
