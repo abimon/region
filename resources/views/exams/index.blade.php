@@ -24,8 +24,7 @@
                 <td>{{ date_format($member->created_at,'Y') }}</td>
                 <td>{{ $member->church_heritage }}</td>
                 <td>{{ $member->bible_truth }}</td>
-                <td>{{ $member->general_knowledge }}</td>
-                <td>{{ ceil((($member->church_heritage) +($member->bible_truth)+($member->general_knowledge))/3)}}</td>
+                <td>{{ $member->general_knowledge }}</td>\
                 <td></td>
             </tr>
             @endforeach

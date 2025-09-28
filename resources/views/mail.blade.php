@@ -22,10 +22,6 @@
             <td>{{$content->general_knowledge}}</td>
         </tr>
         <tr>
-            <td>Average</td>
-            <td>{{ceil((($content->church_heritage) +($content->bible_truth)+($content->general_knowledge))/3)}}</td>
-        </tr>
-        <tr>
             <td>Comment</td>
             <td></td>
         </tr>
