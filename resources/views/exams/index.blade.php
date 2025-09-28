@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class=""><a href="{{ route('exams.create') }}"><button class="btn btn-info w-100">Record Marks</button></a></div>
+    <div class="m-5"><a href="{{ route('exams.create') }}"><button class="btn btn-info w-100">Record Marks</button></a></div>
     <table class="table table-responsive">
         <thead>
             <th>#</th>
