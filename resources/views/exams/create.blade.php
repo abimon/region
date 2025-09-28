@@ -20,19 +20,19 @@
                     <td class="text-uppercase">{{ $user->name }}</td>
                     <td>
                         <div class="form-floating m-3">
-                            <input type="ch{{$user->id}}" class="form-control">
+                            <input type="ch{{$user->id}}" placeholder=" " class="form-control">
                             <label for="">Church Heritage</label>
                         </div>
                     </td>
                     <td>
                         <div class="form-floating m-3">
-                            <input type="bt{{$user->id}}" class="form-control">
+                            <input type="bt{{$user->id}}" placeholder=" " class="form-control">
                             <label for="">Bible Truth</label>
                         </div>
                     </td>
                     <td>
                         <div class="form-floating m-3">
-                            <input type="gk{{$user->id}}" class="form-control">
+                            <input type="gk{{$user->id}}" placeholder=" " class="form-control">
                             <label for="">General Knowledge</label>
                         </div>
                     </td>
