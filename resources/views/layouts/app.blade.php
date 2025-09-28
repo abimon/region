@@ -102,6 +102,12 @@
                             <i class="icon-screen-desktop menu-icon"></i>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            <span class="menu-title">Members & Leaders</span>
+                            <i class="icon-screen-desktop menu-icon"></i>
+                        </a>
+                    </li>
                     <!-- <li class="nav-item nav-category"><span class="nav-link">CLIENT</span></li> -->
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#articles" aria-expanded="false"

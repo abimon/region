@@ -13,7 +13,7 @@ class LessonClassController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role =='Admin'){
+        if(Auth::user()->role =='Admin' || Auth::user()->role =='Area Co-ordinator'|| Auth::user()->role =='CYD/FYD'){
             $lesson = LessonClass::all();
         }else{
             $lesson = LessonClass::where('created_by', Auth::user()->id)->get();
