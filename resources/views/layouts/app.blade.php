@@ -105,7 +105,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.index') }}">
                             <span class="menu-title">Members & Leaders</span>
-                            <i class="icon-screen-desktop menu-icon"></i>
+                            <i class="icon-people menu-icon"></i>
                         </a>
                     </li>
                     <!-- <li class="nav-item nav-category"><span class="nav-link">CLIENT</span></li> -->
@@ -126,7 +126,7 @@
                         <a class="nav-link" data-bs-toggle="collapse" href="#lessons" aria-expanded="false"
                             aria-controls="lessons">
                             <span class="menu-title">Lessons</span>
-                            <i class="icon-people menu-icon"></i>
+                            <i class="icon-list menu-icon"></i>
                         </a>
                         <div class="collapse" id="lessons">
                             <ul class="nav flex-column sub-menu">
