@@ -50,7 +50,7 @@ class ExamController extends Controller
             }
             return back()->with('success', 'Results recorded successifully.');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to record the marks.')->withInput();
+            return back()->with('error', 'Failed to record the marks. '.$th->getMessage())->withInput();
         }
     }
     public function sendEmail($user, $content, $subject)
