@@ -19,8 +19,8 @@
             @foreach ($members as $member)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $member->user->name }}</td>
-                <td>{{ $member->user->institution }}</td>
+                <td>{{ $member->student->name }}</td>
+                <td>{{ $member->student->institution }}</td>
                 <td>{{ date_format($member->created_at,'Y') }}</td>
                 <td>{{ $member->church_heritage }}</td>
                 <td>{{ $member->bible_truth }}</td>
