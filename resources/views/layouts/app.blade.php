@@ -129,6 +129,19 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#lessons" aria-expanded="false"
+                            aria-controls="lessons">
+                            <span class="menu-title">Exams</span>
+                            <i class="icon-people menu-icon"></i>
+                        </a>
+                        <div class="collapse" id="lessons">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('exams.index') }}">View Exams</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('exams.create') }}">Create Exams</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </nav>
             <!-- main panel -->
