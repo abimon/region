@@ -128,7 +128,7 @@
         <div class="col-md-6 mb-2">
             <div class="card p-3">
                 <h2 class="text-center">Change Password</h2>
-                <form method="POST" action="{{ route('clients.update', $user->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
