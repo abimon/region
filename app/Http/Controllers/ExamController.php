@@ -33,7 +33,7 @@ class ExamController extends Controller
      */
     public function store()
     {
-        dd(request());
+        // dd(request());
         try {
             $users = User::all();
             foreach ($users as $user) {
