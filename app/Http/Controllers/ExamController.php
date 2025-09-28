@@ -24,7 +24,7 @@ class ExamController extends Controller
      */
     public function create()
     {
-        $users= User::where('role','Member')->get();
+        $users= User::orderBy('name')->get();
         return view ('exams.create',compact('users'));
     }
 
