@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container-fluid">
-    <h2>University Region {{ date('Y') }} Exam Score</h2>
-    <form action="{{ route('exams.store') }}">
+    <h2 class="mb-3 mt-3">University Region {{ date('Y') }} Exam Score</h2>
+    <form action="{{ route('exams.store') }}" method="post">
         @csrf
         <table class="table table-responsive">
             <thead>
