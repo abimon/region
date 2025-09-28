@@ -36,7 +36,6 @@ class ExamController extends Controller
         dd(request());
         try {
             $users = User::all();
-
             foreach ($users as $user) {
                 if (request('ch' . $user->id) != null || request('bt' . $user->id) != null || request('gk' . $user->id)) {
                     $exam = Exam::create([
