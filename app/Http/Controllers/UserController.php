@@ -63,7 +63,7 @@ class UserController extends Controller
             }
 
             $user = User::where('email', request()->email)->first();
-
+            Auth::login($user);
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
@@ -204,7 +204,14 @@ class UserController extends Controller
                 $user->isBaptised = request('isBaptised');
             }
             if (request('password') != null) {
-                $user->password = request('password');
+                if (Hash::check(request('old_password'), $user->password)) {
+                    $user->password = Hash::make(request('password'));
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Old password does not match with our record.',
+                    ], 401);
+                }
             }
             $user->update();
             if (request()->is('api/*')) {

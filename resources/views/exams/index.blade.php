@@ -1,0 +1,35 @@
+@extends('layouts.app', ['title' => 'Exams'])
+
+@section('content')
+<div class="container-fluid">
+    <div class=""><a href="{{ route('exams.create') }}"><button class="btn btn-info w-100">Record Marks</button></a></div>
+    <table class="table table-responsive">
+        <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Institution</th>
+            <th>Year Of Exam</th>
+            <th>Church Heritage</th>
+            <th>Bible Truth</th>
+            <th>General Knowledge</th>
+            <th>Average</th>
+            <th>Comment</th>
+        </thead>
+        <tbody>
+            @foreach ($members as $member)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $member->user->name }}</td>
+                <td>{{ $member->user->institution }}</td>
+                <td>{{ date_format($member->created_at,'Y') }}</td>
+                <td>{{ $member->church_heritage }}</td>
+                <td>{{ $member->bible_truth }}</td>
+                <td>{{ $member->general_knowledge }}</td>
+                <td>{{ ceil((($member->church_heritage) +($member->bible_truth)+($member->general_knowledge))/3)}}</td>
+                <td></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection
