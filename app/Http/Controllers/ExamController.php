@@ -48,7 +48,7 @@ class ExamController extends Controller
                     $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
                 }
             }
-            return back()->with('success', 'Results recorded successifully.');
+            return redirect()->route('exams.index')->with('success', 'Results recorded successifully.');
         } catch (\Throwable $th) {
             return back()->with('error', 'Failed to record the marks. '.$th->getMessage())->withInput();
         }
