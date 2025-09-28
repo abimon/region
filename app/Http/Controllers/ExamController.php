@@ -24,8 +24,8 @@ class ExamController extends Controller
      */
     public function create()
     {
-        $users= User::orderBy('name')->get();
-        return view ('exams.create',compact('users'));
+        $users = User::orderBy('name')->get();
+        return view('exams.create', compact('users'));
     }
 
     /**
@@ -34,16 +34,18 @@ class ExamController extends Controller
     public function store(Request $request)
     {
         try {
-            $users = User::where('role', 'Member')->get();
+            $users = User::all();
             foreach ($users as $user) {
-                $exam = Exam::create([
-                    'user_id' => $user->id,
-                    'church_heritage' => request('ch' . $user->id),
-                    'bible_truth' => request('bt' . $user->id),
-                    'general_knowledge' => request('gk' . $user->id),
-                    'logged_by' => Auth::user()->id
-                ]);
-                $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
+                if (request('ch' . $user->id) != null || request('bt' . $user->id) != null || request('gk' . $user->id)) {
+                    $exam = Exam::create([
+                        'user_id' => $user->id,
+                        'church_heritage' => request('ch' . $user->id),
+                        'bible_truth' => request('bt' . $user->id),
+                        'general_knowledge' => request('gk' . $user->id),
+                        'logged_by' => Auth::user()->id
+                    ]);
+                    $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
+                }
             }
             return back()->with('success', 'Results recorded successifully.');
         } catch (\Throwable $th) {
