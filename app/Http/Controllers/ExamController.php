@@ -33,8 +33,10 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         try {
             $users = User::all();
+
             foreach ($users as $user) {
                 if (request('ch' . $user->id) != null || request('bt' . $user->id) != null || request('gk' . $user->id)) {
                     $exam = Exam::create([
