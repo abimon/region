@@ -21,6 +21,10 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/dashboard','dashboard')->middleware('auth');
 });
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', function () {
+        $user = Auth::user();
+        return view('user.profile',compact('user'));
+    });
     Route::resources([
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
