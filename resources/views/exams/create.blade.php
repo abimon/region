@@ -19,7 +19,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td class="text-uppercase">{{ $user->name }}</td>
                     <td>
-                        <div class="form-floating  m-3">
+                        <div class="form-floating m-3">
                             <input type="ch{{$user->id}}" class="form-control">
                             <label for="">Church Heritage</label>
                         </div>
@@ -31,7 +31,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="form-floating p-3 m-3">
+                        <div class="form-floating m-3">
                             <input type="gk{{$user->id}}" class="form-control">
                             <label for="">General Knowledge</label>
                         </div>
