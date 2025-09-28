@@ -15,7 +15,8 @@ class ExamController extends Controller
      */
     public function index()
     {
-        //
+        $members = Exam::with('student')->get();
+        return view('exams.index', compact('members'));
     }
 
     /**
