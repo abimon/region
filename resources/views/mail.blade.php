@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>Average</td>
-            <td>{{ceil((($member->church_heritage) +($member->bible_truth)+($member->general_knowledge))/3)}}</td>
+            <td>{{ceil((($content->church_heritage) +($content->bible_truth)+($content->general_knowledge))/3)}}</td>
         </tr>
         <tr>
             <td>Comment</td>
