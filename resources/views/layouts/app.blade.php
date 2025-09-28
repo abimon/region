@@ -130,12 +130,12 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#lessons" aria-expanded="false"
-                            aria-controls="lessons">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#exam" aria-expanded="false"
+                            aria-controls="exam">
                             <span class="menu-title">Exams</span>
                             <i class="icon-people menu-icon"></i>
                         </a>
-                        <div class="collapse" id="lessons">
+                        <div class="collapse" id="exam">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="{{ route('exams.index') }}">View Exams</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ route('exams.create') }}">Create Exams</a></li>
