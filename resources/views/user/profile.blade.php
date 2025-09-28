@@ -168,7 +168,7 @@
                         <label for="role" class="form-label">Select Role</label>
                         <select name="role" id="role" class="form-select" required>
                             <option selected disabled>Select Program</option>
-                            <?php $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Member', 'Guest']; ?>
+                            <?php $roles = ['Member', 'CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Guest', 'Assessor']; ?>
                             @foreach ($roles as $role)
                             <option value="{{ $role }}" {{ $role==$user->role?'selected':'' }}>{{ $role }}
                             </option>

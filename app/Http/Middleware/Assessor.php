@@ -18,7 +18,7 @@ class Assessor
     public function handle(Request $request, Closure $next): Response
     {
         $role= Auth::user()->role;
-        if($role=='Assessor' || $role=='Admin'){
+        if($role=='Assessor' || $role=='Admin' || $role =='CYD/FYD'||$role=='Director'){
             return $next($request);
         }
         return redirect('not_allowed');
