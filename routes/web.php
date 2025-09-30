@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\HomeController;
@@ -29,7 +30,9 @@ Route::middleware('auth')->group(function () {
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
         'enrollments'=>EnrollmentController::class,
-        'users'=>UserController::class
+        'users'=>UserController::class,
+        'churches'=>ChurchController::class,
+
     ]);
     Route::middleware(Assessor::class)->group(function(){
         Route::resources([

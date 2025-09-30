@@ -109,7 +109,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.index') }}">
+                        <a class="nav-link" href="{{ route('churches.index') }}">
                             <span class="menu-title">Churches</span>
                             <i class="icon-church menu-icon"></i>
                         </a>
