@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Church;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChurchController extends Controller
@@ -13,14 +14,15 @@ class ChurchController extends Controller
     public function index()
     {
         $churches = Church::all();
+        $users = User::select('church','name')->get();
         if(request()->is('api/*')){
             $chs = [];
             foreach($churches as $church){
                 $chs[] = $church->name;
             }
-            return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully'],200);
+            return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully','users'=>$users],200);
         }else{
-            return view('church.index', compact('churches'));
+            return view('church.index', compact('churches','users'));
         }
     }
 
