@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('station');
             $table->string('conference');
             $table->string('union');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });

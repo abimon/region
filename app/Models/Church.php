@@ -12,7 +12,8 @@ class Church extends Model
         'station',
         'conference',
         'union',
-        'conference',
+        'email',
+        'phone',
         'is_approved',
     ];
 }
