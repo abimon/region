@@ -12,7 +12,6 @@
             <th>Church Heritage</th>
             <th>Bible Truth</th>
             <th>General Knowledge</th>
-            <th>Average</th>
             <th>Comment</th>
         </thead>
         <tbody>
