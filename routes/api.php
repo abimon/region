@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonClassController;
 use App\Http\Controllers\LessonController;
@@ -65,4 +66,11 @@ Route::controller(LessonClassController::class)->middleware('auth:sanctum')->pre
     Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
+});
+Route::controller(ChurchController::class)->prefix('/churches')->group(function () {
+    Route::get('/','index');
+    Route::post('/store', 'store')->middleware('auth:sanctum');
+    Route::put('/update/{id}', 'update')->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', 'delete')->middleware('auth:sanctum');
+    Route::get('/show/{id}', 'show');
 });
