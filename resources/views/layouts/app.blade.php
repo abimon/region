@@ -145,7 +145,7 @@
                         <a class="nav-link" data-bs-toggle="collapse" href="#exam" aria-expanded="false"
                             aria-controls="exam">
                             <span class="menu-title">Exams</span>
-                            <i class="icon-people menu-icon"></i>
+                            <i class="fa fa-stream menu-icon"></i>
                         </a>
                         <div class="collapse" id="exam">
                             <ul class="nav flex-column sub-menu">
