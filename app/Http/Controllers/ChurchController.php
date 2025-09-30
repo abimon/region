@@ -46,6 +46,7 @@ class ChurchController extends Controller
                 'station'=>request('station'),
                 'conference'=>request('conference'),
                 'union'=>request('union'),
+                'division'=>request('division'),
                 'email'=>request('email'),
                 'phone'=>request('phone'),
             ]);

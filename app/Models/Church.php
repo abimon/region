@@ -12,6 +12,7 @@ class Church extends Model
         'station',
         'conference',
         'union',
+        'division',
         'email',
         'phone',
         'is_approved',
