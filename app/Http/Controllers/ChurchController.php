@@ -14,7 +14,7 @@ class ChurchController extends Controller
     public function index()
     {
         $churches = Church::all();
-        $users = User::select('church','name')->get();
+        $users = User::select('institution as church','name')->get();
         if(request()->is('api/*')){
             $chs = [];
             foreach($churches as $church){
