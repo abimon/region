@@ -20,7 +20,7 @@ class ChurchController extends Controller
             }
             return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully'],200);
         }else{
-            return view('churches.index', compact('churches'));
+            return view('church.index', compact('churches'));
         }
     }
 
