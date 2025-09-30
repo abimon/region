@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => 'Dashboard'])
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <!-- Quick Action Toolbar Starts-->
         <div class="row quick-action-toolbar">
             <div class="col-md-12 grid-margin">
