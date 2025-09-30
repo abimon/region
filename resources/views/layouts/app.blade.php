@@ -111,7 +111,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('churches.index') }}">
                             <span class="menu-title">Churches</span>
-                            <i class="fa fa-church"></i>
+                            <i class="fa fa-church menu-icon"></i>
                         </a>
                     </li>
                     <!-- <li class="nav-item nav-category"><span class="nav-link">CLIENT</span></li> -->
