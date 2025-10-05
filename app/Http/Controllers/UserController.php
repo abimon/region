@@ -239,4 +239,8 @@ class UserController extends Controller
             return back()->with('success', 'User Deleted Successfully');
         }
     }
+    public function getUser(){
+        $user= Auth::user();
+        return response()->json(['user'=>$user]);
+    }
 }
