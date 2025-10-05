@@ -22,7 +22,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::post('/login', 'create');
     Route::post('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
-    Route::get('/getUser','getUser');
+    Route::get('/getUser','getUser')->middleware('auth:sanctum');
     Route::put('/update-password/{id}', 'updatePassword');
 });
 Route::controller(LessonController::class)->prefix('/lessons')->group(function () {
