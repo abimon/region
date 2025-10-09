@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\Assessor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -39,4 +40,15 @@ Route::middleware('auth')->group(function () {
             'exams'=>ExamController::class,
         ]);
     });
+});
+
+// Route::get('/certs',function(){
+//     return view('certificate');
+// });
+Route::get('/certs', function () {
+
+    $pdf = FacadePdf::loadView('certificate');
+    $pdf->set_paper('A4', 'landscape');
+    $pdf->render();
+    return $pdf->download('Marara Certificates.pdf');
 });
