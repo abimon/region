@@ -2,7 +2,54 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="m-5"><a href="{{ route('exams.create') }}"><button class="btn btn-info w-100">Record Marks</button></a></div>
+    <div class="mb-3 row">
+        <div class="col-md-6 p-4">
+            <a href="{{ route('exams.create') }}">
+                <button class="btn btn-info w-100">Record Marks</button>
+            </a>
+        </div>
+        <div class="col-md-6 p-4">
+            <button class="btn btn-outline-success" data-bs-target="#addResultsModal" data-bs-toggle="modal" id="addChurchBtn">+ Result</button>
+        </div>
+    </div>
+    <!-- Add results modal button and modal -->
+    <div class="modal fade" id="addResultsModal" tabindex="-1" aria-labelledby="addResultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addResultsModalLabel">Add Results</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('exams.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="student_id" class="form-label">Student</label>
+                            <select class="form-select" name="student_id" id="student_id" required>
+                                <option value="">Select Student</option>
+                                @foreach ($students as $student)
+                                <option value="{{ $student->id }}">{{ $student->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="church_heritage" class="form-label">Church Heritage</label>
+                            <input type="number" class="form-control" name="ch" id="church_heritage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bible_truth" class="form-label">Bible Truth</label>
+                            <input type="number" class="form-control" name="bt" id="bible_truth" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="general_knowledge" class="form-label">General Knowledge</label>
+                            <input type="number" class="form-control" name="gk" id="general_knowledge" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit Result</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table table-responsive">
         <thead>
             <th>#</th>
