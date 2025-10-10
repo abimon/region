@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
             'exams'=>ExamController::class,
         ]);
     });
+    Route::get('/sendUserEmail/{id}',[UserController::class,'sendUserEmail']);
 });
 
 // Route::get('/certs',function(){

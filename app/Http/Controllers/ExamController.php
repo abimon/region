@@ -63,6 +63,11 @@ class ExamController extends Controller
             }
         );
     }
+    public function sendUserEmail($id){
+        $exam=Exam::findOrFail($id);
+        $user=User::findOrFail($exam->user_id);
+        $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
+    }
     /**
      * Display the specified resource.
      */

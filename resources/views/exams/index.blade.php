@@ -24,7 +24,9 @@
                 <td>{{ $member->church_heritage }}</td>
                 <td>{{ $member->bible_truth }}</td>
                 <td>{{ $member->general_knowledge }}</td>
-                <td></td>
+                <td>
+                    <a href="/sendUserEmail"><button class="btn btn-warning">Send Result</button></a>
+                </td>
             </tr>
             @endforeach
         </tbody>

@@ -20,7 +20,7 @@ class UserController extends Controller
         if(Auth::user()->role=='Admin'){
             $users = User::all();
         }else{
-            $users = User::where('institution',Auth::user()->institution)->get;
+            $users = User::where('institution',Auth::user()->institution)->get();
         }
         if(request()->is('api/*')){
             return response()->json([
