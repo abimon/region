@@ -67,6 +67,7 @@ class ExamController extends Controller
         $exam=Exam::findOrFail($id);
         $user=User::findOrFail($exam->user_id);
         $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
+        return back()->with('success', 'Email sent successfully.');
     }
     /**
      * Display the specified resource.
