@@ -59,7 +59,9 @@
             <th>Church Heritage</th>
             <th>Bible Truth</th>
             <th>General Knowledge</th>
+            <th>Average</th>
             <th>Comment</th>
+            <th>Action</th>
         </thead>
         <tbody>
             @foreach ($results as $result)
@@ -71,6 +73,9 @@
                 <td>{{ $result->church_heritage }}</td>
                 <td>{{ $result->bible_truth }}</td>
                 <td>{{ $result->general_knowledge }}</td>
+                <?php $average = ceil(($result->church_heritage + $result->bible_truth + $result->general_knowledge) / 3);?>
+                <td>{{ $average }}</td>
+                <td>{{ $average<60?'Pass':'Fail' }}</td>
                 <td>
                     <a href="/sendUserEmail/{{ $result->id }}"><button class="btn btn-warning">Send Result</button></a>
                 </td>
