@@ -62,17 +62,17 @@
             <th>Comment</th>
         </thead>
         <tbody>
-            @foreach ($members as $member)
+            @foreach ($results as $result)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td class="text-uppercase">{{ $member->student->name }}</td>
-                <td>{{ $member->student->institution }}</td>
-                <td>{{ date_format($member->created_at,'Y') }}</td>
-                <td>{{ $member->church_heritage }}</td>
-                <td>{{ $member->bible_truth }}</td>
-                <td>{{ $member->general_knowledge }}</td>
+                <td class="text-uppercase">{{ $result->student->name }}</td>
+                <td>{{ $result->student->institution }}</td>
+                <td>{{ date_format($result->created_at,'Y') }}</td>
+                <td>{{ $result->church_heritage }}</td>
+                <td>{{ $result->bible_truth }}</td>
+                <td>{{ $result->general_knowledge }}</td>
                 <td>
-                    <a href="/sendUserEmail/{{ $member->id }}"><button class="btn btn-warning">Send Result</button></a>
+                    <a href="/sendUserEmail/{{ $result->id }}"><button class="btn btn-warning">Send Result</button></a>
                 </td>
             </tr>
             @endforeach

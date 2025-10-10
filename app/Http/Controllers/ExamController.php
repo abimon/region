@@ -15,13 +15,12 @@ class ExamController extends Controller
      */
     public function index()
     {
-        $members = Exam::with('student')->get();
-        // get users not having results
+        $results = Exam::with('student')->get();
         $users = User::whereNotIn('id', function ($query) {
             $query->select('user_id')->from('exams');
         })->get();
         // dd($users);
-        return view('exams.index', compact('members','users'));
+        return view('exams.index', compact('results','users'));
     }
 
     /**
