@@ -20,7 +20,7 @@ class ExamController extends Controller
             $query->select('user_id')->from('exams');
         })->get();
         // dd($users);
-        return view('exams.index', compact('results','students'));
+        return view('exams.index', compact('results', 'students'));
     }
 
     /**
@@ -39,22 +39,18 @@ class ExamController extends Controller
     {
         // dd(request());
         try {
-            $users = User::all();
-            foreach ($users as $user) {
-                if (request('ch' . $user->id) != null || request('bt' . $user->id) != null || request('gk' . $user->id)) {
-                    $exam = Exam::create([
-                        'user_id' => $user->id,
-                        'church_heritage' => request('ch' . $user->id),
-                        'bible_truth' => request('bt' . $user->id),
-                        'general_knowledge' => request('gk' . $user->id),
-                        'logged_by' => Auth::user()->id
-                    ]);
-                    $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
-                }
-            }
+            $user = User::findOrFail(request('student_id'));
+            $exam = Exam::create([
+                'user_id' => $user->id,
+                'church_heritage' => request('ch'),
+                'bible_truth' => request('bt'),
+                'general_knowledge' => request('gk'),
+                'logged_by' => Auth::user()->id
+            ]);
+            $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
             return redirect()->route('exams.index')->with('success', 'Results recorded successifully.');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to record the marks. '.$th->getMessage())->withInput();
+            return back()->with('error', 'Failed to record the marks. ' . $th->getMessage())->withInput();
         }
     }
     public function sendEmail($user, $content, $subject)
@@ -67,9 +63,10 @@ class ExamController extends Controller
             }
         );
     }
-    public function sendUserEmail($id){
-        $exam=Exam::findOrFail($id);
-        $user=User::findOrFail($exam->user_id);
+    public function sendUserEmail($id)
+    {
+        $exam = Exam::findOrFail($id);
+        $user = User::findOrFail($exam->user_id);
         $this->sendEmail($user, $exam, 'University Region ' . date('Y') . ' Exam Results');
         return back()->with('success', 'Email sent successfully.');
     }
