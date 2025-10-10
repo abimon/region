@@ -16,6 +16,11 @@ class ExamController extends Controller
     public function index()
     {
         $results = Exam::with('student')->get();
+        // order results by user name bound to user id
+        $results = $results->sortBy(function ($result) {
+            return $result->student->name;
+        });
+        // dd($results);
         $students = User::whereNotIn('id', function ($query) {
             $query->select('user_id')->from('exams');
         })->get();
