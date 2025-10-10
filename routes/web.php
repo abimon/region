@@ -20,34 +20,34 @@ Auth::routes();
 
 Route::controller(HomeController::class)->group(function () {
     // Route::get('/', 'index');
-    Route::get('/dashboard','dashboard')->middleware('auth');
+    Route::get('/dashboard', 'dashboard')->middleware('auth');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
         $user = Auth::user();
-        return view('user.profile',compact('user'));
+        return view('user.profile', compact('user'));
     });
     Route::resources([
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
-        'enrollments'=>EnrollmentController::class,
-        'users'=>UserController::class,
-        'churches'=>ChurchController::class,
+        'enrollments' => EnrollmentController::class,
+        'users' => UserController::class,
+        'churches' => ChurchController::class,
 
     ]);
-    Route::middleware(Assessor::class)->group(function(){
+    Route::middleware(Assessor::class)->group(function () {
         Route::resources([
-            'exams'=>ExamController::class,
+            'exams' => ExamController::class,
         ]);
     });
-    Route::get('/sendUserEmail/{id}',[ExamController::class,'sendUserEmail']);
+    Route::get('/sendUserEmail/{id}', [ExamController::class, 'sendUserEmail']);
 });
 
 // Route::get('/certs',function(){
 //     return view('certificate');
 // });
 Route::get('/certs', function () {
-
+    set_time_limit(300);
     $pdf = FacadePdf::loadView('certificate');
     $pdf->set_paper('A4', 'landscape');
     $pdf->render();

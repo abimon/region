@@ -10,7 +10,7 @@
 ]; ?>
 
 @foreach ($names as $name)
-<img src="/storage/images/" alt="">
+<img src="data:image/png;base64,{{ base64_encode(file_get_contents( "https://masterguide.apektechinc.com/storage/images/cert.jpg" )) }}">
+<!-- <img src="" alt=""> -->
 @endforeach
-
 @endsection
