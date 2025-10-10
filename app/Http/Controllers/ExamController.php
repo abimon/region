@@ -20,7 +20,7 @@ class ExamController extends Controller
             $query->select('user_id')->from('exams');
         })->get();
         // dd($users);
-        return view('exams.index', compact('results','users'));
+        return view('exams.index', compact('results','results'));
     }
 
     /**
