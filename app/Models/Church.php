@@ -17,4 +17,8 @@ class Church extends Model
         'phone',
         'is_approved',
     ];
+    public function members()
+    {
+        return $this->hasMany(User::class, 'institution','name');
+    }
 }

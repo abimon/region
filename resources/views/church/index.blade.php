@@ -81,7 +81,7 @@
                 <td>{{ $church->conference }}</td>
                 <td>{{ $church->union }}</td>
                 <td>{{ $church->division }}</td>
-                <td>{{ $users->where('church',$church->name)->count()}}</td>
+                <td>{{ $church->members->count()}}</td>
                 <td>
                     <a href="{{ route('churches.show', $church->id) }}" class="btn btn-primary btn-sm">View</a>
                     <a href="{{ route('churches.edit', $church->id) }}" class="btn btn-warning btn-sm">Edit</a>
