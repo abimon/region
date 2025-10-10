@@ -48,8 +48,9 @@ Route::middleware('auth')->group(function () {
 //     return view('certificate');
 // });
 Route::get('/certs', function () {
-    Pdf::view('cert')
-    ->format('a4')
-    ->landscape()
-    ->save('invoice.pdf');
+    // Pdf::view('cert')
+    // ->format('a4')
+    // ->landscape()
+    // ->save('invoice.pdf');
+    return view('certificate');
 });
