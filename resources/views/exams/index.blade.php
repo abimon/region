@@ -75,7 +75,7 @@
                 <td>{{ $result->general_knowledge }}</td>
                 <?php $average = ceil(($result->church_heritage + $result->bible_truth + $result->general_knowledge) / 3);?>
                 <td>{{ $average }}</td>
-                <td>{{ $average<60?'Pass':'Fail' }}</td>
+                <td>{{ $average>60?'Pass':'Fail' }}</td>
                 <td>
                     <a href="/sendUserEmail/{{ $result->id }}"><button class="btn btn-warning">Send Result</button></a>
                 </td>
