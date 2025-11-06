@@ -14,7 +14,7 @@ class LessonClassController extends Controller
     public function index()
     {
         if(Auth::user()->role =='Admin' || Auth::user()->role =='Area Co-ordinator'|| Auth::user()->role =='CYD/FYD'){
-            $lesson = LessonClass::all();
+            $lesson = LessonClass::join('users', 'lesson_classes.created_by', '=', 'users.id')->select('lesson_classes.*','users.institution')->get();
         }else{
             $lesson = LessonClass::where('created_by', Auth::user()->id)->get();
         }
@@ -22,6 +22,7 @@ class LessonClassController extends Controller
             return response()->json($lesson);
         }
         return view('lessonclass.index', compact('lesson'));
+    
     }
     /**
      * Show the form for creating a new resource.
