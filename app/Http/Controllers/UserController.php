@@ -27,7 +27,7 @@ class UserController extends Controller
             $message= 'All users';
         }elseif(in_array(Auth::user()->role,$region)){
             $churches = Church::where('station',Auth::user()->church->station)->get();
-            $users = User::whereIn('institution',$churches->pluck('id'))->get();
+            $users = User::whereIn('institution',$churches->pluck('name'))->get();
             $message= 'All users in your region';
         }elseif(in_array(Auth::user()->role,$local)){
             $users =User::where('institution', Auth::user()->institution)->get();
