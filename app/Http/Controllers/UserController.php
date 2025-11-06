@@ -264,8 +264,8 @@ class UserController extends Controller
         $sts = ['Member', 'Visitor', 'Guest'];
         $students = User::whereIn('role', $sts)->get();
         $instructors = User::whereIn('role', 'Instructor')->get();
-        $lessons = LessonClass::count();
-        $churches = Church::count();
+        $lessons = LessonClass::all()->count();
+        $churches = Church::all()->count();
         return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
     }
 }
