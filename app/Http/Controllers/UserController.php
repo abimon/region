@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Church;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,10 +18,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role=='Admin'){
+        // $roles = ['Member', 'CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Guest', 'Assessor'];
+        $conference = ['Admin','CYD/FYD'];
+        $region = ['Area Co-ordinator', 'Assessor'];
+        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor'];
+        if(in_array(Auth::user()->role,$conference)){
             $users = User::all();
+        }elseif(in_array(Auth::user()->role,$region)){
+            $churches = Church::where('station',Auth::user()->church->station)->get();
+            $users = User::whereIn('institution',$churches->pluck('id'))->get();
+        }elseif(in_array(Auth::user()->role,$local)){
+            $users =User::where('institution', Auth::user()->institution)->get();
         }else{
-            $users = User::where('institution',Auth::user()->institution)->get();
+            $users = [];
         }
         if(request()->is('api/*')){
             return response()->json([
