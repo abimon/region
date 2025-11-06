@@ -20,10 +20,10 @@ class LessonClassController extends Controller
         }else if( Auth::user()->role == 'Area Co-ordinator'){
             $churches = Church::where('name', Auth::user()->institution)->pluck('name')->toArray();
             $authors = User::whereIn('institution', $churches)->pluck('id')->toArray();
-            $lesson = LessonClass::whereIn('created_by', $authors);
+            $lesson = LessonClass::whereIn('created_by', $authors)->join('users', 'lesson_classes.created_by', '=', 'users.id')->select('lesson_classes.*', 'users.institution')->get();;
         }else{
             $authors = User::where('institution',Auth::user()->institution)->pluck('id')->toArray();
-            $lesson = LessonClass::whereIn('created_by', $authors)->get();
+            $lesson = LessonClass::whereIn('created_by', $authors)->join('users', 'lesson_classes.created_by', '=', 'users.id')->select('lesson_classes.*', 'users.institution')->get();
         }
         if(request()->is('api/*')){
             return response()->json($lesson);
