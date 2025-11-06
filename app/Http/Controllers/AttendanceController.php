@@ -15,13 +15,20 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+        $timestamp = strtotime(request('date'));
+
+        // date() then formats the timestamp into the 'YYYY-MM-DD' format required by whereDate.
+        $standardDate = date('Y-m-d', $timestamp);
+
         $students = User::withExists(['attendances as is_present' => function ($query) {
             $query->whereDate('created_at', Carbon::today())->where('lesson_id', request('lesson_id'));
         }])->get();
-        $attendance = Attendance::where('lesson_id', request('lesson_id'))->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+        $attendance = Attendance::where('created_at', '<=',$standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
         if(request()->is('api/*')){
             return response()->json(['attendance'=>$attendance,'students'=>$students]);
         }
+        // get attendance where created at is formated as Nov 2, 2025
+        
         return view('attendance.index', compact('attendance'));
         
     }
