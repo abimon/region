@@ -24,6 +24,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::delete('/delete/{id}', 'delete');
     Route::get('/getUser','getUser')->middleware('auth:sanctum');
     Route::put('/update-password/{id}', 'updatePassword');
+    Route::get('/stats','stats');
 });
 Route::controller(LessonController::class)->prefix('/lessons')->group(function () {
     Route::get('/','index');

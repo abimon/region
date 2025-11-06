@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Church;
+use App\Models\LessonClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -256,5 +257,15 @@ class UserController extends Controller
     public function getUser(){
         $user= Auth::user();
         return response()->json(['user'=>$user]);
+    }
+
+    public function stats(){
+        $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Assessor'];
+        $sts = ['Member', 'Visitor', 'Guest'];
+        $students = User::whereIn('role', $sts)->get();
+        $instructors = User::whereIn('role', 'Instructor')->get();
+        $lessons = LessonClass::count();
+        $churches = Church::count();
+        return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
     }
 }
