@@ -22,7 +22,7 @@ class UserController extends Controller
         // $roles = ['Member', 'CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Guest', 'Assessor'];
         $conference = ['Admin','CYD/FYD'];
         $region = ['Area Co-ordinator', 'Assessor'];
-        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor'];
+        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor','Member'];
         if(in_array(Auth::user()->role,$conference)){
             $users = User::orderBy('name','asc')->get();
             $message= 'All users';
