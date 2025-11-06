@@ -25,20 +25,20 @@ class AttendanceController extends Controller
             $students = User::withExists(['attendances as is_present' => function ($query) {
                 $query->whereDate('created_at', Carbon::today());
             }])->get();
-            $attendance = Attendance::whereDate('attendance.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+            $attendance = Attendance::whereDate('attendances.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
         } elseif (in_array(Auth::user()->role, $region)) {
             $churches = Church::where('station', Auth::user()->church->station)->get();
             $students = User::withExists(['attendances as is_present' => function ($query) {
                 $query->whereDate('created_at', Carbon::today());
             }])->whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
             $users = User::whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
-            $attendance = Attendance::whereDate('attendance.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->whereIn('user_id',$users->pluck('id'))->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+            $attendance = Attendance::whereDate('attendances.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->whereIn('user_id',$users->pluck('id'))->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
         } elseif (in_array(Auth::user()->role, $local)) {
             $students = User::withExists(['attendances as is_present' => function ($query) {
                 $query->whereDate('created_at', Carbon::today());
             }])->whereIn('institution',Auth::user()->institution)->orderBy('name', 'asc')->get();
             $users = User::whereIn('institution', Auth::user()->institution)->orderBy('name', 'asc')->get();
-            $attendance = Attendance::whereDate('attendance.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->whereIn('user_id', $users->pluck('id'))->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+            $attendance = Attendance::whereDate('attendances.created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->whereIn('user_id', $users->pluck('id'))->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
         } else {
             $users = [];
             $message = 'No users';
