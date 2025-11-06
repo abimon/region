@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Church;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,14 +17,30 @@ class AttendanceController extends Controller
     public function index()
     {
         $timestamp = strtotime(request('date'));
-
-        // date() then formats the timestamp into the 'YYYY-MM-DD' format required by whereDate.
         $standardDate = date('Y-m-d', $timestamp);
-
-        $students = User::withExists(['attendances as is_present' => function ($query) {
-            $query->whereDate('created_at', Carbon::today())->where('lesson_id', request('lesson_id'));
-        }])->get();
-        $attendance = Attendance::where('created_at', '<=',$standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+        $conference = ['Admin', 'CYD/FYD'];
+        $region = ['Area Co-ordinator', 'Assessor'];
+        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor'];
+        if (in_array(Auth::user()->role, $conference)) {
+            $students = User::withExists(['attendances as is_present' => function ($query) {
+                $query->whereDate('created_at', Carbon::today());
+            }])->get();
+            $attendance = Attendance::whereDate('created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+        } elseif (in_array(Auth::user()->role, $region)) {
+            $churches = Church::where('station', Auth::user()->church->station)->get();
+            $students = User::withExists(['attendances as is_present' => function ($query) {
+                $query->whereDate('created_at', Carbon::today());
+            }])->whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
+            $users = User::whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
+            $attendance = Attendance::whereDate('created_at', $standardDate)->join('users', 'users.id', '=', 'attendances.user_id')->whereIn('user_id',$users->pluck('id'))->join('lesson_classes', 'lesson_classes.id', '=', 'attendances.lesson_id')->select('users.*', 'lesson_classes.title')->get();
+        } elseif (in_array(Auth::user()->role, $local)) {
+            $users = User::where('institution', Auth::user()->institution)->orderBy('name', 'asc')->get();
+            $message = 'All users in your church';
+        } else {
+            $users = [];
+            $message = 'No users';
+        }
+        
         if(request()->is('api/*')){
             return response()->json(['attendance'=>$attendance,'students'=>$students]);
         }
