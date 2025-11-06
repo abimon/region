@@ -23,14 +23,14 @@ class UserController extends Controller
         $region = ['Area Co-ordinator', 'Assessor'];
         $local = ['Director', 'Ass. Director', 'Elder', 'Instructor'];
         if(in_array(Auth::user()->role,$conference)){
-            $users = User::all();
+            $users = User::orderBy('name','asc')->get();
             $message= 'All users';
         }elseif(in_array(Auth::user()->role,$region)){
-            $churches = Church::where('station',Auth::user()->church->station)->get();
+            $churches = Church::where('station',Auth::user()->church->station)->orderBy('name','asc')->get();
             $users = User::whereIn('institution',$churches->pluck('name'))->get();
             $message= 'All users in your region';
         }elseif(in_array(Auth::user()->role,$local)){
-            $users =User::where('institution', Auth::user()->institution)->get();
+            $users =User::where('institution', Auth::user()->institution)->orderBy('name','asc')->get();
             $message= 'All users in your church';
         }else{
             $users = [];
