@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Church;
 use App\Models\LessonClass;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +15,15 @@ class LessonClassController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role =='Admin' || Auth::user()->role =='Area Co-ordinator'|| Auth::user()->role =='CYD/FYD'){
+        if(Auth::user()->role =='Admin' || Auth::user()->role =='CYD/FYD'){
             $lesson = LessonClass::join('users', 'lesson_classes.created_by', '=', 'users.id')->select('lesson_classes.*','users.institution')->get();
+        }else if( Auth::user()->role == 'Area Co-ordinator'){
+            $churches = Church::where('name', Auth::user()->institution)->pluck('name')->toArray();
+            $authors = User::whereIn('institution', $churches)->pluck('id')->toArray();
+            $lesson = LessonClass::whereIn('created_by', $authors);
         }else{
-            $lesson = LessonClass::where('created_by', Auth::user()->id)->get();
+            $authors = User::where('institution',Auth::user()->institution)->pluck('id')->toArray();
+            $lesson = LessonClass::whereIn('created_by', $authors);
         }
         if(request()->is('api/*')){
             return response()->json($lesson);
