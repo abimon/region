@@ -24,18 +24,22 @@ class UserController extends Controller
         $local = ['Director', 'Ass. Director', 'Elder', 'Instructor'];
         if(in_array(Auth::user()->role,$conference)){
             $users = User::all();
+            $message= 'All users';
         }elseif(in_array(Auth::user()->role,$region)){
             $churches = Church::where('station',Auth::user()->church->station)->get();
             $users = User::whereIn('institution',$churches->pluck('id'))->get();
+            $message= 'All users in your region';
         }elseif(in_array(Auth::user()->role,$local)){
             $users =User::where('institution', Auth::user()->institution)->get();
+            $message= 'All users in your church';
         }else{
             $users = [];
+            $message= 'No users';
         }
         if(request()->is('api/*')){
             return response()->json([
                 'status' => true,
-                'message' => 'All Users',
+                'message' => $message,
                 'users' => $users,
             ], 200);
         }
