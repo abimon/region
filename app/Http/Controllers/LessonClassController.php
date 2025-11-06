@@ -23,7 +23,7 @@ class LessonClassController extends Controller
             $lesson = LessonClass::whereIn('created_by', $authors);
         }else{
             $authors = User::where('institution',Auth::user()->institution)->pluck('id')->toArray();
-            $lesson = LessonClass::whereIn('created_by', $authors);
+            $lesson = LessonClass::whereIn('created_by', $authors)->get();
         }
         if(request()->is('api/*')){
             return response()->json($lesson);
