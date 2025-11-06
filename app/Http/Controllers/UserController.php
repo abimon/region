@@ -263,7 +263,7 @@ class UserController extends Controller
         $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Assessor'];
         $sts = ['Member', 'Visitor', 'Guest'];
         $students = User::whereIn('role', $sts)->get();
-        $instructors = User::where('role', 'Instructor')->get();
+        $instructors = User::whereIn('role', $roles)->orWhere('isInvested',true)->get();
         $lessons = LessonClass::all()->count();
         $churches = Church::all()->count();
         return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
