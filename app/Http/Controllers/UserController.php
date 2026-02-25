@@ -254,8 +254,12 @@ class UserController extends Controller
         }
     }
     public function getUser(){
-        $user= Auth::user();
-        return response()->json(['user'=>$user]);
+        try {
+            $user = Auth::user();
+            return response()->json(['status' => true, 'message' => 'User fetched successfully', 'user' => $user], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
+        }
     }
 
     public function stats(){
