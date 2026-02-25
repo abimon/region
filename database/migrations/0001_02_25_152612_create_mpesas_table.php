@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_sections', function (Blueprint $table) {
+        Schema::create('mpesas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id');
-            $table->text('title');
+            $table->string('TransactionType');
+            $table->string('Tracking_id');
+            $table->string('TransAmount');
+            $table->string('MpesaReceiptNumber');
+            $table->string('TransactionDate');
+            $table->string('PhoneNumber');
+            $table->text('response');
             $table->timestamps();
-            $table->foreign('book_id')->references('id')->on('books')->cascadeOnDelete();
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_sections');
+        Schema::dropIfExists('mpesas');
     }
 };

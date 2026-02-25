@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lesson extends Model
+class Announcement extends Model
 {
     protected $fillable = [
         'title',
-        'description',
-        'instructor',
-        'date',
-        'venue',
-        'comments',
-        'created_by'
+        'content',
+        'due_by',
+        'class_id',
+        'created_by',
+        'is_active'
     ];
 
     public function creator()

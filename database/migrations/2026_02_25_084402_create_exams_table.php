@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete();
-            $table->foreignId('lesson_id')->constrained('lesson_classes','id')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('church_classes','id')->cascadeOnDelete();
+            $table->string('church_heritage');
+            $table->string('bible_truth');
+            $table->string('general_knowledge');
+            $table->foreignId('logged_by')->constrained('users','id')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('exams');
     }
 };

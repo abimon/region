@@ -33,6 +33,7 @@ class User extends Authenticatable
         'about',
         'isInvested',
         'isBaptised',
+        'parent_id',
     ];
 
     /**
@@ -56,6 +57,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function classes(){
+        return $this->belongsToMany(ClassMember::class, 'class_members', 'user_id', 'class_id');
     }
     public function attendances()
     {

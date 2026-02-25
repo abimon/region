@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Church;
+use App\Models\ChurchClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class ChurchController extends Controller
     public function store()
     {
         try{
-            Church::create([
+            $church = Church::create([
                 'name'=>request('name'),
                 'district'=>request('district'),
                 'station'=>request('station'),
@@ -50,6 +51,12 @@ class ChurchController extends Controller
                 'email'=>request('email'),
                 'phone'=>request('phone'),
             ]);
+            foreach(['Adventurers','Pathfinders','Ambassadors','Young Adults','Masterguide','SYL'] as $class){
+                ChurchClass::create([
+                    'church_id' => $church->id,
+                    'class_name' => $class
+                ]);
+            }
             if(request()->is('api/*')){
                 return response()->json(['message'=>'Church added successfully'],201);
             }else{

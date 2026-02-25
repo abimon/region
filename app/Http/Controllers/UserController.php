@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
 use App\Models\Church;
-use App\Models\LessonClass;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -128,7 +126,8 @@ class UserController extends Controller
                 'institution' => request('institution'),
                 'dob' => request('dob'),
                 'gender' => request('gender'),
-                'role' => 'Member'
+                'role' => request('role') ?? 'Member',
+                'parent_id' => request('parent_id') ?? null,
             ]);
             return response()->json([
                 'user' => $user,
@@ -264,7 +263,7 @@ class UserController extends Controller
         $sts = ['Member', 'Visitor', 'Guest'];
         $students = User::whereIn('role', $sts)->get();
         $instructors = User::whereIn('role', $roles)->orWhere('isInvested',true)->get();
-        $lessons = LessonClass::all()->count();
+        $lessons = Lesson::all()->count();
         $churches = Church::all()->count();
         return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
     }

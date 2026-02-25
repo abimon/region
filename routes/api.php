@@ -3,13 +3,10 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChurchController;
-use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\LessonClassController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\RepoController;
 use App\Http\Controllers\UserController;
-use App\Models\Article;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -26,19 +23,15 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::put('/update-password/{id}', 'updatePassword');
     Route::get('/stats','stats');
 });
-Route::controller(LessonController::class)->prefix('/lessons')->group(function () {
+Route::controller(HomeController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('/dashboard/{role}','dashboard');
+});
+Route::controller(LessonController::class)->middleware('auth:sanctum')->prefix('/lessons')->group(function () {
     Route::get('/','index');
     Route::post('/store', 'store');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
     Route::get('/show/{id}', 'show');
-});
-Route::controller(EnrollmentController::class)->prefix('/enrollments')->group(function () {
-    Route::get('/','index');
-    Route::post('/store', 'store');
-    ROute::get('show/{id}', 'show');
-    Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'destroy');
 });
 Route::controller(ArticleController::class)->prefix('/articles')->group(function () {
     Route::get('/','index');
@@ -56,13 +49,6 @@ Route::controller(AttendanceController::class)->middleware('auth:sanctum')->pref
 });
 Route::get('/repository', [RepoController::class,'repo']);
 Route::controller(RepoController::class)->prefix('/repo')->middleware('auth:sanctum')->group(function () {
-    Route::get('/', 'index');
-    Route::post('/store', 'store');
-    Route::get('/show/{id}', 'show');
-    Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'destroy');
-});
-Route::controller(LessonClassController::class)->middleware('auth:sanctum')->prefix('/classlessons')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');

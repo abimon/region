@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookSection;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
-class BookSectionController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BookSectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BookSection $bookSection)
+    public function show(Payment $payment)
     {
         //
     }
@@ -42,7 +42,7 @@ class BookSectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BookSection $bookSection)
+    public function edit(Payment $payment)
     {
         //
     }
@@ -50,7 +50,7 @@ class BookSectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BookSection $bookSection)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -58,7 +58,7 @@ class BookSectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BookSection $bookSection)
+    public function destroy(Payment $payment)
     {
         //
     }

@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('category');
-            $table->unsignedBigInteger('instructor_id');
-            $table->longText('content');
-            $table->string('image');
-            $table->string('slug');
-            $table->boolean('isPublished')->default(0);
+            $table->text('description')->nullable();
+            $table->string('instructor')->nullable();
+            $table->string('date');
+            $table->string('venue');
+            $table->string('comments')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('instructor_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 

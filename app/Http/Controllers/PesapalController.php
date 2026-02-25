@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
-use Illuminate\Support\Facades\File;
+use App\Models\Pesapal;
 use Illuminate\Http\Request;
-use Spatie\LaravelPdf\Facades\Pdf;
 
-class EventController extends Controller
+class PesapalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +34,7 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function show(Pesapal $pesapal)
     {
         //
     }
@@ -44,7 +42,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Event $event)
+    public function edit(Pesapal $pesapal)
     {
         //
     }
@@ -52,7 +50,7 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, Pesapal $pesapal)
     {
         //
     }
@@ -60,12 +58,8 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy(Pesapal $pesapal)
     {
         //
-    }
-    public function generatePdfWithBackground()
-    {
-        
     }
 }

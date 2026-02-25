@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChurchController;
-use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
@@ -31,7 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'articles' => ArticleController::class,
         'lessons' => LessonController::class,
-        'enrollments'=>EnrollmentController::class,
         'users'=>UserController::class,
         'churches'=>ChurchController::class,
 
@@ -48,9 +45,5 @@ Route::middleware('auth')->group(function () {
 //     return view('certificate');
 // });
 Route::get('/certs', function () {
-    // Pdf::view('cert')
-    // ->format('a4')
-    // ->landscape()
-    // ->save('invoice.pdf');
     return view('certificate');
 });

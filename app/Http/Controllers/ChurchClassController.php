@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookContent;
+use App\Models\ChurchClass;
 use Illuminate\Http\Request;
 
-class BookContentController extends Controller
+class ChurchClassController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BookContentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BookContent $bookContent)
+    public function show(ChurchClass $churchClass)
     {
         //
     }
@@ -42,7 +42,7 @@ class BookContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BookContent $bookContent)
+    public function edit(ChurchClass $churchClass)
     {
         //
     }
@@ -50,7 +50,7 @@ class BookContentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BookContent $bookContent)
+    public function update(Request $request, ChurchClass $churchClass)
     {
         //
     }
@@ -58,7 +58,7 @@ class BookContentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BookContent $bookContent)
+    public function destroy(ChurchClass $churchClass)
     {
         //
     }

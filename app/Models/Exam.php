@@ -8,6 +8,7 @@ class Exam extends Model
 {
     protected $fillable = [
         'user_id',
+        'church_id',
         'church_heritage',
         'bible_truth',
         'general_knowledge',

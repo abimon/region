@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use App\Models\Mpesa;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class MpesaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(Mpesa $mpesa)
     {
         //
     }
@@ -42,7 +42,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(Mpesa $mpesa)
     {
         //
     }
@@ -50,7 +50,7 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, Mpesa $mpesa)
     {
         //
     }
@@ -58,7 +58,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(Mpesa $mpesa)
     {
         //
     }

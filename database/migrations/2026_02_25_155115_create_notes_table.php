@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_contents', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete();
+            $table->foreignId('lesson_id')->constrained('lessons','id')->cascadeOnDelete();
             $table->string('title');
-            $table->longText('content');
-            $table->unsignedBigInteger('section_id');
-            $table->foreign('section_id')->references('id')->on('book_sections')->onDelete('cascade');
+            $table->text('content');
+            $table->enum('status',['active','archived'])->default('active');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_contents');
+        Schema::dropIfExists('notes');
     }
 };
