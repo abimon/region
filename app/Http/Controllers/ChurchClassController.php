@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Church;
 use App\Models\ChurchClass;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChurchClassController extends Controller
@@ -61,5 +63,11 @@ class ChurchClassController extends Controller
     public function destroy(ChurchClass $churchClass)
     {
         //
+    }
+
+    public function getMembers($church){
+        // $church = Church::where('name',$church)->first();
+        $members = User::where('institution',$church)->get();
+        return response()->json(['members'=>$members,'message'=>'Members retrieved successfully'],200);
     }
 }

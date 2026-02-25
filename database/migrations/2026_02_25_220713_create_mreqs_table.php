@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mreqs', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['Membership', 'Leadership','Class']);
+            $table->enum('type', ['Membership', 'Leadership','Lesson']);
             $table->text('description');
             $table->foreignId('church_id')->constrained('churches','id')->cascadeOnDelete();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
