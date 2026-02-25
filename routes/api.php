@@ -5,6 +5,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MreqController;
 use App\Http\Controllers\RepoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -61,4 +62,11 @@ Route::controller(ChurchController::class)->prefix('/churches')->group(function 
     Route::put('/update/{id}', 'update')->middleware('auth:sanctum');
     Route::delete('/delete/{id}', 'delete')->middleware('auth:sanctum');
     Route::get('/show/{id}', 'show');
+});
+Route::controller(MreqController::class)->prefix('/mrequests')->middleware('auth:sanctum')->group(function () {
+    Route::get('/','index');
+    Route::post('/store', 'store');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'destroy');
 });
