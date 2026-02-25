@@ -67,7 +67,7 @@ class ChurchClassController extends Controller
 
     public function getMembers($church){
         // $church = Church::where('name',$church)->first();
-        $members = User::where('institution',$church)->get();
+        $members = User::orderBy('name','asc')->where('institution',$church)->get();
         return response()->json(['members'=>$members,'message'=>'Members retrieved successfully'],200);
     }
 }
