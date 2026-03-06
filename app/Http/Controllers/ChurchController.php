@@ -15,13 +15,12 @@ class ChurchController extends Controller
     public function index()
     {
         $churches = Church::all();
-        $users = User::select('institution as church','name')->get();
         if(request()->is('api/*')){
             $chs = [];
             foreach($churches as $church){
                 $chs[] = ['church_name'=>$church->name,'members'=>$church->members->count()];
             }
-            return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully','users'=>$users],200);
+            return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully'],200);
         }else{
             return view('church.index', compact('churches','users'));
         }
