@@ -51,7 +51,7 @@ class ChurchClassController extends Controller
      */
     public function show($church)
     {
-        $classes = ChurchClass::where('church', $church)->get();
+        $classes = ChurchClass::where('church_id', $church)->get();
         if (request()->is('api/*')) {
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
         }
