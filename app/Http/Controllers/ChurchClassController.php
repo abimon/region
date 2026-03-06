@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class ChurchClassController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
@@ -30,15 +28,34 @@ class ChurchClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $church = Church::where('name', request('church'))->first();
+            ChurchClass::create([
+                'class_name' => request('name'),
+                'church_id' => $church->id,
+            ]);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Class created successfully'], 200);
+            }
+            return redirect()->back()->with('success', 'Class created successfully');
+        } catch (\Throwable $th) {
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Class creation failed'], 500);
+            }
+            return redirect()->back()->with('error', 'Class creation failed');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ChurchClass $churchClass)
+    public function show($church)
     {
-        //
+        $classes = ChurchClass::where('church', $church)->get();
+        if (request()->is('api/*')) {
+            return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
+        }
+        return view('churches.classes', compact('classes', 'church'));
     }
 
     /**
@@ -65,9 +82,10 @@ class ChurchClassController extends Controller
         //
     }
 
-    public function getMembers($church){
+    public function getMembers($church)
+    {
         // $church = Church::where('name',$church)->first();
-        $members = User::orderBy('name','asc')->where('institution',$church)->get();
-        return response()->json(['members'=>$members,'message'=>'Members retrieved successfully'],200);
+        $members = User::orderBy('name', 'asc')->where('institution', $church)->get();
+        return response()->json(['members' => $members, 'message' => 'Members retrieved successfully'], 200);
     }
 }
