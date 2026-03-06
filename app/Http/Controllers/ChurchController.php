@@ -19,13 +19,14 @@ class ChurchController extends Controller
         if(request()->is('api/*')){
             $chs = [];
             foreach($churches as $church){
-                $chs[] = $church->name;
+                $chs[] = ['church_name'=>$church->name,'members'=>$church->members->count()];
             }
             return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully','users'=>$users],200);
         }else{
             return view('church.index', compact('churches','users'));
         }
     }
+    
 
     /**
      * Show the form for creating a new resource.
