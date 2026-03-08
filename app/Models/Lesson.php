@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     protected $fillable = [
-        'class_id',
         'title',
         'description',
         'instructor',
         'date',
         'venue',
+        'venue_type',
+        'content',
+        'status',
+        'content_type',
         'comments',
         'created_by'
     ];

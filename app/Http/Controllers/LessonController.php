@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Lesson;
+use App\Models\LessonResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +16,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -37,6 +40,7 @@ class LessonController extends Controller
                 'instructor'=>request('instructor'),
                 'date'=>request('date'),
                 'venue'=>request('venue'),
+                'venue_type'=>request('venue_type'),
                 'comments'=>request('comments')??null,
                 'created_by'=>Auth::id()
             ]);
@@ -75,9 +79,47 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update($id)
     {
-        //
+        $lesson=Lesson::findOrFail($id);
+        if(request('title')!=null){
+            $lesson->title=request('title');
+        }
+        if(request('description')!=null){
+            $lesson->description=request('description');
+        }
+        if(request('instructor')!=null){
+            $lesson->instructor=request('instructor');
+        }
+        if(request('date')!=null){
+            $lesson->date=request('date');
+        }
+        if(request('venue')!=null){
+            $lesson->venue=request('venue');
+        }
+        if(request('venue_type')!=null){
+            $lesson->venue_type=request('venue_type');
+        }
+        if(request('content')!=null){
+            $lesson->content=request('content');
+        }
+        if(request('status')!=null){
+            $lesson->status=request('status');
+        }
+        if(request('content_type')!=null){
+            $lesson->content_type=request('content_type');
+        }
+        if(request('comments')!=null){
+            $lesson->comments=request('comments');
+        }
+        if(request('created_by')!=null){
+            $lesson->created_by=request('created_by');
+        }
+        $lesson->update();
+        if(request()->is('api/*')){
+            return response()->json(['message'=>'Lesson updated successfully'],200);
+        }
+        return back()->with('success','Lesson updated successfully');
     }
 
     /**
@@ -86,6 +128,19 @@ class LessonController extends Controller
     public function destroy(Lesson $lesson)
     {
         //
+    }
+
+    public function getData($lesson_id){
+        // lesson, attendees, resources
+        $attendance = Attendance::where('attendances.lesson_id',$lesson_id)->join('users','users.id','=','attendances.user_id')->select('users.name','attendances.*')->get();
+        $resources = LessonResource::where('lesson_id',$lesson_id)->select('lesson_resources.title', 'lesson_resources.path')->get();
+        $absentees = User::whereNotIn('id',function($query) use ($lesson_id){
+            $query->select('user_id')->from('attendances')->where('lesson_id',$lesson_id);
+        })->get();
+        if(request()->is('api/*')){
+            return response()->json(['attendance'=>$attendance,'absentees'=>$absentees]);
+        }
+        return view('lessons.show',compact('absentees','attendance'));
     }
 
 }
