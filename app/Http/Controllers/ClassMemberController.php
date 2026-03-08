@@ -65,13 +65,6 @@ class ClassMemberController extends Controller
         foreach(User::all() as $user){
             $church = Church::where('name',$user->institution)->first();
             $class = ChurchClass::where([['class_name','Masterguide'],['church_id',$church->id]])->first();
-            if(!ClassMember::where([['user_id',$user->id],['church_class_id',$class->id]])->exists()){
-                ClassMember::create([
-                    'church_class_id' => $class->id,
-                    'user_id' => $user->id,
-                    'status' => 'pending'
-                ]);
-            }
         }
         $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.*', 'class_members.id')->get();
         if (request()->is('api/*')) {

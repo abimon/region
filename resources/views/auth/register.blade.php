@@ -84,17 +84,9 @@
 
                                     <div class="col-md-8">
                                         <select name="institution" id="" class="form-select @error('institution') is-invalid @enderror">
-                                            <option value="" selected disabled>Select Institution</option>
-                                            <?php $institutions = [
-                                                'JKUSDA',
-                                                'KUSDA',
-                                                'MKUSDA',
-                                                'TUKSDA',
-                                                'UoNSDA',
-                                                'ZUSDA',
-                                            ]; ?>
-                                            @foreach($institutions as $institution)
-                                            <option value="{{$institution}}" {{ old('institution') ? 'selected' : '' }}>{{$institution}}</option>
+                                            <option value="" selected disabled>Select Church</option>
+                                            @foreach(App\Models\Church::select('name')->get() as $church)
+                                            <option value="{{$church->name}}" {{ old('institution') ? 'selected' : '' }}>{{$church->name}}</option>
                                             @endforeach
                                         </select>
                                         @error('institution')
