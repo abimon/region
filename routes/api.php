@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChurchClassController;
 use App\Http\Controllers\ChurchController;
+use App\Http\Controllers\ClassMemberController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MreqController;
@@ -79,4 +80,11 @@ Route::controller(ChurchClassController::class)->prefix('/classes')->middleware(
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
     Route::get('/club-members/{id}', 'getMembers');
+});
+Route::controller(ClassMemberController::class)->prefix('/class-members')->middleware('auth:sanctum')->group(function () {
+    Route::get('/','index');
+    Route::post('/store', 'store');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'destroy');
 });
