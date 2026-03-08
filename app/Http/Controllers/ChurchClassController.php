@@ -64,7 +64,7 @@ class ChurchClassController extends Controller
                         $class->status = 'Approved';
                     }else{
                         $class->is_enrolled = true;
-                        $class->status = 'Pending';
+                        $class->status = $user->status;
                     }
                 }else{
                     $class->is_enrolled = false;
