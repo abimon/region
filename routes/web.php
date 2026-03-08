@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChurchController;
+use App\Http\Controllers\ClassMemberController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
         'lessons' => LessonController::class,
         'users'=>UserController::class,
         'churches'=>ChurchController::class,
-
+        'members'=> ClassMemberController::class
     ]);
     Route::middleware(Assessor::class)->group(function(){
         Route::resources([
