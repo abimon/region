@@ -253,7 +253,7 @@ class UserController extends Controller
             return back()->with('success', 'User Deleted Successfully');
         }
     }
-    public function getUser(){
+    public function getAuthUser(){
         try {
             $user = Auth::user();
             return response()->json(['status' => true, 'message' => 'User fetched successfully', 'user' => $user], 200);
@@ -261,7 +261,15 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
         }
     }
-
+    public function getUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            return response()->json(['status' => true, 'message' => 'User fetched successfully', 'user' => $user], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
+        }
+    }
     public function stats(){
         $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Assessor'];
         $sts = ['Member', 'Visitor', 'Guest'];
