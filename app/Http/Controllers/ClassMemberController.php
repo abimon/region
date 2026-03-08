@@ -57,9 +57,13 @@ class ClassMemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClassMember $classMember)
+    public function show($id)
     {
-        //
+        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.*', 'class_members.id')->get();
+        if (request()->is('api/*')) {
+            return response()->json(['members'=>$classMembers], 200);
+        }
+        return view('admin.classMembers.show', compact('classMember'));
     }
 
     /**
