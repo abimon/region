@@ -18,7 +18,7 @@ class ChurchController extends Controller
             $chs = [];
             foreach($churches as $church){
                 foreach (['Adventurers', 'Pathfinders', 'Ambassadors', 'Young Adults', 'Masterguide', 'SYL'] as $class) {
-                    if(ChurchClass::where([['church_id', $church->id],['class_name', $class]])->exsists()){
+                    if(ChurchClass::where([['church_id', $church->id],['class_name', $class]])->exists()){
                         ChurchClass::create([
                             'church_id' => $church->id,
                             'class_name' => $class
