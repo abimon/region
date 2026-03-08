@@ -30,13 +30,27 @@ class ClassMemberController extends Controller
     public function store(Request $request)
     {
         try {
-            ClassMember::create([
-                'church_class_id'=>request('church_class_id'),
-                'user_id'=>Auth::id(),
-                'status'=>'pending'
-            ]);
+            if (!ClassMember::where([['church_class_id', request('church_class_id')], ['user_id', Auth::id()]])->exists()) {
+                ClassMember::create([
+                    'church_class_id' => request('church_class_id'),
+                    'user_id' => Auth::id(),
+                    'status' => 'pending'
+                ]);
+                if (request()->is('api/*')) {
+                    return response()->json(['message' => 'Class Member Added Successfully'], 200);
+                }
+                return back()->with('success', 'Class Member Added Successfully');
+            } else {
+                if (request()->is('api/*')) {
+                    return response()->json(['message' => 'Class Member Already Exists'], 400);
+                }
+                return redirect()->back()->with('error', 'Class Member Already Exists');
+            }
         } catch (\Throwable $th) {
-            //throw $th;
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'An error occurred. '.$th->getMessage()], 500);
+            }
+            return redirect()->back()->with('error', 'An error occurred');
         }
     }
 
@@ -61,24 +75,24 @@ class ClassMemberController extends Controller
      */
     public function update($member_id)
     {
-        $classMember =ClassMember::findOrFail($member_id);
-        if(request('church_class_id')!=null){
+        $classMember = ClassMember::findOrFail($member_id);
+        if (request('church_class_id') != null) {
             $classMember->church_class_id = request('church_class_id');
         }
-        if(request('user_id')!=null){
+        if (request('user_id') != null) {
             $classMember->user_id = request('user_id');
         }
-        if(request('role')!=null){
+        if (request('role') != null) {
             $classMember->role = request('role');
         }
-        if(request('status')!=null){
+        if (request('status') != null) {
             $classMember->status = request('status');
         }
         $classMember->update();
-        if(request()->is('api/*')){
-            return response()->json($classMember,200);
+        if (request()->is('api/*')) {
+            return response()->json($classMember, 200);
         }
-        return redirect()->back()->with('success','Class Member Updated Successfully');
+        return redirect()->back()->with('success', 'Class Member Updated Successfully');
     }
 
     /**
