@@ -67,7 +67,8 @@ class ClassMemberController extends Controller
         if (request()->is('api/*')) {
             return response()->json(['members'=>$classMembers], 200);
         }
-        return view('admin.classMembers.show', compact('classMember'));
+        return $classMembers;
+        // return view('admin.classMembers.show', compact('classMember'));
     }
 
     /**
