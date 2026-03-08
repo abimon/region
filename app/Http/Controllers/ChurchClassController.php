@@ -57,10 +57,18 @@ class ChurchClassController extends Controller
         $classes = ChurchClass::where('church_id', $_church->id)->get();
         if (request()->is('api/*')) {
             foreach($classes as $key=>$class){
-                if(ClassMember::where([['church_class_id',$class->id],['user_id',Auth::user()->id]])->exists()){
-                    $class->is_enrolled=true;
+                $user = ClassMember::where([['church_class_id', $class->id], ['user_id', Auth::user()->id]])->first();
+                if($user){
+                    if($user->status=='approved'){
+                        $class->is_enrolled = true;
+                        $class->status = 'Approved';
+                    }else{
+                        $class->is_enrolled = true;
+                        $class->status = 'Pending';
+                    }
                 }else{
                     $class->is_enrolled = false;
+                    $class->status = 'Unknown';
                 }
             }
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
