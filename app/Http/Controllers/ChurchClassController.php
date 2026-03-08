@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Church;
 use App\Models\ChurchClass;
+use App\Models\ClassMember;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChurchClassController extends Controller
 {
@@ -51,8 +53,16 @@ class ChurchClassController extends Controller
      */
     public function show($church)
     {
-        $classes = ChurchClass::where('church_id', Church::where('name',$church)->first()->id)->get();
+        $_church = Church::where('name', $church)->first();
+        $classes = ChurchClass::where('church_id', $_church->id)->get();
         if (request()->is('api/*')) {
+            foreach($classes as $key=>$class){
+                if(ClassMember::where([['class_id',$class->id],['user_id',Auth::user()->id]])->exists()){
+                    $class->is_enrolled=true;
+                }else{
+                    $class->is_enrolled = false;
+                }
+            }
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
         }
         return view('churches.classes', compact('classes', 'church'));

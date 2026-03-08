@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
+use App\Models\ClassMember;
 use App\Models\Lesson;
 use App\Models\LessonResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
@@ -132,15 +133,14 @@ class LessonController extends Controller
 
     public function getData($lesson_id){
         // lesson, attendees, resources
-        $attendance = Attendance::where('attendances.lesson_id',$lesson_id)->join('users','users.id','=','attendances.user_id')->select('users.name','attendances.*')->get();
         $resources = LessonResource::where('lesson_id',$lesson_id)->select('lesson_resources.title', 'lesson_resources.path')->get();
-        $absentees = User::whereNotIn('id',function($query) use ($lesson_id){
-            $query->select('user_id')->from('attendances')->where('lesson_id',$lesson_id);
-        })->get();
+        $attendance = ClassMember::where('church_class_id', Lesson::findOrFail($lesson_id)->class_id)->withExists(['attendances as is_present' => function ($query) {
+            $query->whereDate('created_at', Carbon::today());
+        }])->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name','users.avatar','class_members.user_id','is_present')->orderBy('name', 'asc')->get();
         if(request()->is('api/*')){
-            return response()->json(['attendance'=>$attendance,'absentees'=>$absentees]);
+            return response()->json(['attendance'=>$attendance]);
         }
-        return view('lessons.show',compact('absentees','attendance'));
+        return view('lessons.show',compact('attendance'));
     }
 
 }

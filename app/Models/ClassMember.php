@@ -12,4 +12,8 @@ class ClassMember extends Model
         'role',
         'status'
     ];
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'user_id','id');
+    }
 }
