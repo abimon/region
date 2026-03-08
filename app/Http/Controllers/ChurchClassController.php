@@ -64,7 +64,7 @@ class ChurchClassController extends Controller
                         $class->status = 'Approved';
                     }else{
                         $class->is_enrolled = true;
-                        $class->status = $user->status;
+                        $class->status =ucfirst( $user->status);
                     }
                 }else{
                     $class->is_enrolled = false;
