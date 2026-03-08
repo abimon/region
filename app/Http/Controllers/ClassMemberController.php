@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Church;
-use App\Models\ChurchClass;
 use App\Models\ClassMember;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
