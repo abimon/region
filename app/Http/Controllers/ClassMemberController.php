@@ -60,7 +60,7 @@ class ClassMemberController extends Controller
     public function show($id)
     {
         
-        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.*')->orderBy('users.name','asc')->get();
+        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.id as member_id','class_members.role as class_role', 'class_members.church_class_id as class_id', 'class_members.status as class_status')->orderBy('users.name','asc')->get();
         foreach($classMembers as $classMember){
             $classMember->class = $classMember->church_class;
         }
