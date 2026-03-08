@@ -62,11 +62,11 @@ class ClassMemberController extends Controller
      */
     public function show($id)
     {
-        foreach(User::all() as $user){
-            $church = Church::where('name',$user->institution)->first();
-            $class = ChurchClass::where([['class_name','Masterguide'],['church_id',$church->id]])->first();
+        
+        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.*', 'class_members.id as member_id','class_members.role as class_role')->orderBy('users.name','asc')->get();
+        foreach($classMembers as $classMember){
+            $classMember->class_name = $classMembers->churchClass->class_name;
         }
-        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.*', 'class_members.id','class_members.role as class_role')->orderBy('users.name','asc')->get();
         if (request()->is('api/*')) {
             return response()->json(['members'=>$classMembers], 200);
         }
