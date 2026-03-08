@@ -84,7 +84,7 @@
 
                                     <div class="col-md-8">
                                         <select name="institution" id="" class="form-select @error('institution') is-invalid @enderror">
-                                            <option value="" selected disabled>Select Church</option>
+                                            <option value="" selected disabled>Select church</option>
                                             @foreach(App\Models\Church::select('name')->get() as $church)
                                             <option value="{{$church->name}}" {{ old('institution') ? 'selected' : '' }}>{{$church->name}}</option>
                                             @endforeach
