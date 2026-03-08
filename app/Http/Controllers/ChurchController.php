@@ -17,14 +17,6 @@ class ChurchController extends Controller
         if(request()->is('api/*')){
             $chs = [];
             foreach($churches as $church){
-                foreach (['Adventurers', 'Pathfinders', 'Ambassadors', 'Young Adults', 'Masterguide', 'SYL'] as $class) {
-                    if(!ChurchClass::where([['church_id', $church->id],['class_name', $class]])->exists()){
-                        ChurchClass::create([
-                            'church_id' => $church->id,
-                            'class_name' => $class
-                        ]);
-                    }
-                }
                 $chs[] = ['church_name'=>$church->name,'members'=>$church->members->count()];
             }
             return response()->json(['churches'=>$chs,'message'=>'Churches retrieved successfully'],200);
