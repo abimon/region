@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Church;
+use App\Models\ChurchClass;
 use App\Models\ClassMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,6 +62,17 @@ class ClassMemberController extends Controller
      */
     public function show($id)
     {
+        foreach(User::all() as $user){
+            $church = Church::where('name',$user->institution)->first();
+            $class = ChurchClass::where([['name','Masterguide'],[$church->id]])->first();
+            if(!ClassMember::where([['user_id',$user->id],['church_class_id',$class->id]])->exists()){
+                ClassMember::create([
+                    'church_class_id' => $class->id,
+                    'user_id' => $user->id,
+                    'status' => 'pending'
+                ]);
+            }
+        }
         $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.*', 'class_members.id')->get();
         if (request()->is('api/*')) {
             return response()->json(['members'=>$classMembers], 200);
