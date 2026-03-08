@@ -64,7 +64,7 @@ class ClassMemberController extends Controller
     {
         foreach(User::all() as $user){
             $church = Church::where('name',$user->institution)->first();
-            $class = ChurchClass::where([['name','Masterguide'],[$church->id]])->first();
+            $class = ChurchClass::where([['class_name','Masterguide'],[$church->id]])->first();
             if(!ClassMember::where([['user_id',$user->id],['church_class_id',$class->id]])->exists()){
                 ClassMember::create([
                     'church_class_id' => $class->id,
