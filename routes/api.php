@@ -28,7 +28,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::get('/stats','stats');
 });
 Route::controller(HomeController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('/dashboard/{role}','dashboard');
+    Route::post('/dashboard/{role}','dashboardRole');
 });
 Route::controller(LessonController::class)->middleware('auth:sanctum')->prefix('/lessons')->group(function () {
     Route::get('/','index');

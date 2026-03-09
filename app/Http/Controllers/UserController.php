@@ -273,10 +273,19 @@ class UserController extends Controller
     public function stats(){
         $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Assessor'];
         $sts = ['Member', 'Visitor', 'Guest'];
-        $students = User::whereIn('role', $sts)->get();
-        $instructors = User::whereIn('role', $roles)->orWhere('isInvested',true)->get();
-        $lessons = Lesson::all()->count();
-        $churches = Church::all()->count();
+        $students=[];
+        $instructors=[];
+        $lessons=0;
+        $churches=0;
+        if(Auth::user()->role=='Admin'){
+            $students = User::whereIn('role', $sts)->get();
+            $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->get();
+            $lessons = Lesson::all()->count();
+            $churches = Church::all()->count();
+        }else{
+            $students = User::whereIn('role', $sts)->where('institution', Auth::user()->institution)->get();
+            $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->where('institution', Auth::user()->institution)->get();
+        }
         return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
     }
 }
