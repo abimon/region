@@ -97,21 +97,12 @@ class ChurchClassController extends Controller
     public function class_data($id)
     {
         $class = ChurchClass::findOrFail($id);
-        $members = ClassMember::where('church_class_id', $id)->get();
+        $members = ClassMember::where('church_class_id', $id)->join('users','users.id','=','class_members.user_id')->select('class_members.*','users.name', 'users.email', 'users.contact', 'users.institution', 'users.gender', 'users.avatar')->orderBy('users.name')->get();
         $lessons = Lesson::where('class_id', $id)->get();
         $announcements = Announcement::where('class_id', $id)->get();
         $assignments = Assigment::where('class_id', $id)->get();
-        foreach ($members as $member) {
-            $details = User::where('id', $member->user_id)->select('id', 'name', 'email', 'contact', 'institution', 'gender', 'avatar')->first();
-            $member->name = $details->name;
-            $member->email = $details->email;
-            $member->contact = $details->contact;
-            $member->institution = $details->institution;
-            $member->gender = $details->gender;
-            $member->avatar = $details->avatar;
-        }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->sortBy('name'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
+            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members, 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
         }
         return view('church.class', compact('class', 'members', 'lessons', 'announcements', 'assignments'));
     }
