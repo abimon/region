@@ -102,8 +102,14 @@ class ChurchClassController extends Controller
         $announcements = Announcement::where('class_id', $id)->get();
         $assignments = Assigment::where('class_id', $id)->get();
         foreach ($members as $member) {
-            $member->details = User::where('id', $member->user_id)->select('id', 'name', 'email', 'contact', 'institution', 'gender', 'avatar')->first();
-            // $member->name=$members->details->name;
+            $details = User::where('id', $member->user_id)->select('id', 'name', 'email', 'contact', 'institution', 'gender', 'avatar')->first();
+            $member->name = $details->name;
+            $member->name = $details->name;
+            $member->email = $details->email;
+            $member->contact = $details->contact;
+            $member->institution = $details->institution;
+            $member->gender = $details->gender;
+            $member->avatar = $details->avatar;
         }
         if (request()->is('api/*')) {
             return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->sortBy('details.name'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
