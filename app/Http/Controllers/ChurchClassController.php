@@ -19,8 +19,8 @@ class ChurchClassController extends Controller
             $class->church=Church::findOrFail($class->church_id)->name;
             foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
                 $class->role = ucfirst($value->first()->role);
+                $class->status = ucfirst($value->first()->status);
             }
-            
         }
         if(request()->is('api/*')){
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
