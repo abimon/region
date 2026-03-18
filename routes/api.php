@@ -81,6 +81,7 @@ Route::controller(ChurchClassController::class)->prefix('/classes')->middleware(
     Route::get('/data/{id}', 'class_data');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
+    Route::get('/getUserClasses/{id}', 'getUserClasses');
 });
 Route::controller(ClassMemberController::class)->prefix('/class-members')->middleware('auth:sanctum')->group(function () {
     Route::get('/','index');

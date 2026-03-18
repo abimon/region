@@ -30,6 +30,21 @@ class ChurchClassController extends Controller
         }
         return view('church.classes', compact('classes'));
     }
+    public function getUserClasses($id)
+    {
+        $membership = ClassMember::where('user_id', $id)->get();
+        $classes = ChurchClass::whereIn('id', $membership->pluck('church_class_id')->toArray())->get();
+        foreach ($classes as $class) {
+            $class->church = Church::findOrFail($class->church_id)->name;
+            foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
+                $class->role = ucfirst($value->first()->role);
+                $class->status = ucfirst($value->first()->status);
+            }
+        }
+        if (request()->is('api/*')) {
+            return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
+        }
+    }
 
     public function create()
     {
@@ -96,7 +111,7 @@ class ChurchClassController extends Controller
     public function class_data($id)
     {
         $class = ChurchClass::findOrFail($id);
-        $members = ClassMember::where('church_class_id', $id)->join('users','users.id','=','class_members.user_id')->select('class_members.*','users.name', 'users.email', 'users.contact', 'users.institution', 'users.gender', 'users.avatar')->orderBy('users.name')->get();
+        $members = ClassMember::where('church_class_id', $id)->join('users', 'users.id', '=', 'class_members.user_id')->select('class_members.*', 'users.name', 'users.email', 'users.contact', 'users.institution', 'users.gender', 'users.avatar')->orderBy('users.name')->get();
         $lessons = Lesson::where('class_id', $id)->get();
         $announcements = Announcement::where('class_id', $id)->get();
         $assignments = Assigment::where('class_id', $id)->get();
