@@ -17,7 +17,7 @@ class ChurchClassController extends Controller
         $classes = ChurchClass::whereIn('id',$membership->pluck('church_class_id')->toArray())->get();
         foreach($classes as $class){
             $class->church=$class->inst;
-            $class->role = ucfirst($membership->role);
+            $class->role = ucfirst($membership->where('church_class_id',$class->id)->role);
         }
         if(request()->is('api/*')){
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
