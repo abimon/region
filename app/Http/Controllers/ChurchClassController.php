@@ -112,7 +112,7 @@ class ChurchClassController extends Controller
             $member->avatar = $details->avatar;
         }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->sortBy('details.name'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
+            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->sortBy('name'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
         }
         return view('church.class', compact('class', 'members', 'lessons', 'announcements', 'assignments'));
     }
