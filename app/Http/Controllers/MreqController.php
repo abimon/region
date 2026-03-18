@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Church;
+use App\Models\ChurchClass;
+use App\Models\ClassMember;
 use App\Models\Mreq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MreqController extends Controller
 {
@@ -12,7 +16,8 @@ class MreqController extends Controller
      */
     public function index()
     {
-        $mreqs = Mreq::with('church')->get();
+        $classes = ChurchClass::where('church_id',Church::where('name',Auth::user()->institution)->first()->id)->pluck('id');
+        $mreqs = ClassMember::whereIn('church_class_id',$classes)->where('status','pending')->get();
         if(request()->is('api/*')){
             return response()->json(['status' => true, 'message' => 'Membership and Leadership requirements fetched successfully', 'mreqs' => $mreqs], 200);
         }
