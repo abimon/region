@@ -16,8 +16,12 @@ class ClassMember extends Model
     {
         return $this->hasMany(Attendance::class, 'user_id','id');
     }
-    public function church_class()
+    public function class()
     {
         return $this->belongsTo(ChurchClass::class, 'church_class_id','id');
+    }
+    public function member()
+    {
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 }

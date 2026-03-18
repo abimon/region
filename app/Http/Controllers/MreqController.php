@@ -19,6 +19,11 @@ class MreqController extends Controller
         $classes = ChurchClass::where('church_id',Church::where('name',Auth::user()->institution)->first()->id)->pluck('id');
         $mreqs = ClassMember::whereIn('church_class_id',$classes)->where('status','pending')->get();
         if(request()->is('api/*')){
+            foreach ($mreqs as $req) {
+                $req->user= $req->member;
+                $req->church_class = $req->class;
+                $req->church = $req->church_class->church;
+            }
             return response()->json(['status' => true, 'message' => 'Membership and Leadership requirements fetched successfully', 'mreqs' => $mreqs], 200);
         }
         return view('mreq.index', compact('mreqs'));
