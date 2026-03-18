@@ -104,7 +104,6 @@ class ChurchClassController extends Controller
         foreach ($members as $member) {
             $details = User::where('id', $member->user_id)->select('id', 'name', 'email', 'contact', 'institution', 'gender', 'avatar')->first();
             $member->name = $details->name;
-            $member->name = $details->name;
             $member->email = $details->email;
             $member->contact = $details->contact;
             $member->institution = $details->institution;
