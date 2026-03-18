@@ -16,7 +16,7 @@ class ChurchClassController extends Controller
         $membership = ClassMember::where('user_id', Auth::user()->id)->get();
         $classes = ChurchClass::whereIn('id',$membership->pluck('church_class_id')->toArray())->get();
         foreach($classes as $class){
-            $class->church=$class->inst;
+            $class->church=Church::findOrFail($class->church_id)->name;
             foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
                 $class->role = ucfirst($value->first()->role);
             }
