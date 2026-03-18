@@ -277,7 +277,7 @@ class UserController extends Controller
         $instructors=[];
         $lessons=0;
         $churches=0;
-        if(Auth::user()->role=='Admin'){
+        if(request('role')=='admin'){
             $students = User::whereIn('role', $sts)->get();
             $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->get();
             $lessons = Lesson::all()->count();
