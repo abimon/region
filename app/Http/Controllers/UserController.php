@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Church;
+use App\Models\ChurchClass;
+use App\Models\ClassMember;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -128,6 +131,19 @@ class UserController extends Controller
                 'gender' => request('gender'),
                 'role' => request('role') ?? 'Member',
                 'parent_id' => request('parent_id') ?? null,
+            ]);
+            $church_id = Church::where('name', request('institution'))->first()->id;
+            $age = Carbon::parse(request('dob'))->age;
+            if($age<10){
+                $class_id = ChurchClass::where([['class_name','Adventurers'],['church_id',$church_id]])->first()->id;
+            }elseif($age<16){
+                $class_id = ChurchClass::where([['class_name','Pathfinders'],['church_id',$church_id]])->first()->id;
+            }else{
+                $class_id = ChurchClass::where([['class_name', 'Masterguide'],['church_id',$church_id]])->first()->id;
+            }
+            ClassMember::create([
+                'church_class_id'=>$class_id,
+                'user_id'=>$user->id,
             ]);
             return response()->json([
                 'user' => $user,
