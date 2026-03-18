@@ -286,6 +286,6 @@ class UserController extends Controller
             $students = User::whereIn('role', $sts)->where('institution', Auth::user()->institution)->get();
             $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->where('institution', Auth::user()->institution)->get();
         }
-        return response()->json(['students'=>$students->count(), 'instructors'=>$instructors->count(),'lessons'=>$lessons,'churches'=>$churches]);
+        return response()->json(['students'=>$students->count()??0, 'instructors'=>$instructors->count()??0,'lessons'=>$lessons,'churches'=>$churches]);
     }
 }
