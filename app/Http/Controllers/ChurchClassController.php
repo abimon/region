@@ -13,7 +13,16 @@ class ChurchClassController extends Controller
 
     public function index()
     {
-        //
+        $membership = ClassMember::where('user_id', Auth::user()->id)->get();
+        $classes = ChurchClass::whereIn('id',$membership->pluck('church_class_id')->toArray())->get();
+        foreach($classes as $class){
+            $class->church=$class->inst;
+            $class->role = ucfirst($membership->role);
+        }
+        if(request()->is('api/*')){
+            return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
+        }
+        return view('church.classes', compact('classes'));
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
-use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
@@ -26,9 +25,27 @@ class AnnouncementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        try {
+            Announcement::create([
+                'title' => request('title'),
+                'content' => request('content'),
+                'due_by' => request('due_by'),
+                'class_id' => request('class_id'),
+                'created_by' => request('created_by'),
+                'is_active' => request('is_active')
+            ]);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Announcement created successfully']);
+            }
+            return redirect()->back()->with('success', 'Announcement created successfully');
+        } catch (\Throwable $th) {
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'Error: '.$th->getMessage()], 500);
+            }
+            return redirect()->back()->with('success', 'Error: '. $th->getMessage());
+        }
     }
 
     /**
@@ -50,7 +67,7 @@ class AnnouncementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Announcement $announcement)
+    public function update(Announcement $announcement)
     {
         //
     }

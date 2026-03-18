@@ -10,4 +10,8 @@ class ChurchClass extends Model
         'church_id',
         'class_name'
     ];
+    public function inst()
+    {
+        return $this->belongsTo(Church::class);
+    }
 }
