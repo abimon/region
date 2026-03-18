@@ -78,6 +78,7 @@ Route::controller(ChurchClassController::class)->prefix('/classes')->middleware(
     Route::get('/','index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');
+    Route::get('/data/{id}', 'class_data');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'destroy');
 });

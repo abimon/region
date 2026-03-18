@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
+use App\Models\Assigment;
 use App\Models\Church;
 use App\Models\ChurchClass;
 use App\Models\ClassMember;
+use App\Models\Lesson;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,31 +18,24 @@ class ChurchClassController extends Controller
     public function index()
     {
         $membership = ClassMember::where('user_id', Auth::user()->id)->get();
-        $classes = ChurchClass::whereIn('id',$membership->pluck('church_class_id')->toArray())->get();
-        foreach($classes as $class){
-            $class->church=Church::findOrFail($class->church_id)->name;
+        $classes = ChurchClass::whereIn('id', $membership->pluck('church_class_id')->toArray())->get();
+        foreach ($classes as $class) {
+            $class->church = Church::findOrFail($class->church_id)->name;
             foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
                 $class->role = ucfirst($value->first()->role);
                 $class->status = ucfirst($value->first()->status);
             }
         }
-        if(request()->is('api/*')){
+        if (request()->is('api/*')) {
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
         }
         return view('church.classes', compact('classes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
@@ -59,25 +56,22 @@ class ChurchClassController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($church)
     {
         $_church = Church::where('name', $church)->first();
         $classes = ChurchClass::where('church_id', $_church->id)->get();
         if (request()->is('api/*')) {
-            foreach($classes as $key=>$class){
+            foreach ($classes as $key => $class) {
                 $user = ClassMember::where([['church_class_id', $class->id], ['user_id', Auth::user()->id]])->first();
-                if($user){
-                    if($user->status=='approved'){
+                if ($user) {
+                    if ($user->status == 'approved') {
                         $class->is_enrolled = true;
                         $class->status = 'Approved';
-                    }else{
+                    } else {
                         $class->is_enrolled = true;
-                        $class->status =ucfirst( $user->status);
+                        $class->status = ucfirst($user->status);
                     }
-                }else{
+                } else {
                     $class->is_enrolled = false;
                     $class->status = 'Unknown';
                 }
@@ -87,9 +81,6 @@ class ChurchClassController extends Controller
         return view('churches.classes', compact('classes', 'church'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ChurchClass $churchClass)
     {
         //
@@ -103,9 +94,33 @@ class ChurchClassController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function class_data($id)
+    {
+        $class = ChurchClass::findOrFail($id);
+        $members = ClassMember::where('church_class_id', $id)->get();
+        $lessons = Lesson::where('class_id', $id)->get();
+        $announcements = Announcement::where('class_id', $id)->get();
+        $assignments = Assigment::where('class_id', $id)->get();
+        foreach ($members as $member) {
+            $member->details = User::where('id', $member->user_id)->select('id','name','email','contact','institution','gender','avatar')->first();
+        }
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members, 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
+        }
+        return view('church.class', compact('class', 'members', 'lessons', 'announcements', 'assignments'));
+    }
+    public function enroll($id)
+    {
+        ClassMember::create([
+            'church_class_id' => $id,
+            'user_id' => Auth::user()->id,
+            'role' => 'member',
+            'status' => 'pending',
+        ]);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'Class enrolled successfully'], 200);
+        }
+    }
     public function destroy(ChurchClass $churchClass)
     {
         //
