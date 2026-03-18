@@ -25,7 +25,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::get('/getAuthUser','getAuthUser')->middleware('auth:sanctum');
     Route::get('/getUser/{id}', 'getUser')->middleware('auth:sanctum');
     Route::put('/update-password/{id}', 'updatePassword');
-    Route::get('/stats','stats');
+    Route::get('/stats','stats')->middleware('auth:sanctum');
 });
 Route::controller(HomeController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('/dashboard/{role}','dashboardRole');
