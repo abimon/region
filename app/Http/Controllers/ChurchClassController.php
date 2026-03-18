@@ -103,9 +103,10 @@ class ChurchClassController extends Controller
         $assignments = Assigment::where('class_id', $id)->get();
         foreach ($members as $member) {
             $member->details = User::where('id', $member->user_id)->select('id', 'name', 'email', 'contact', 'institution', 'gender', 'avatar')->first();
+            $member->name=$members->details->name;
         }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->orderBy('details.name','asc'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
+            return response()->json(['message' => 'Class retrieved successfully', 'class' => $class, 'members' => $members->orderBy('name','asc'), 'lessons' => $lessons, 'announcements' => $announcements, 'assignments' => $assignments], 200);
         }
         return view('church.class', compact('class', 'members', 'lessons', 'announcements', 'assignments'));
     }
