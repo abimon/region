@@ -12,6 +12,6 @@ class ChurchClass extends Model
     ];
     public function inst()
     {
-        return $this->belongsTo(Church::class);
+        return $this->belongsTo(Church::class,'church_id','id');
     }
 }
