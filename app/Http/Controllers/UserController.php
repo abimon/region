@@ -49,6 +49,23 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function forgotPassword(){
+        // get email from link and verify if it exists in the database
+        // send a reset password link that utelizes the laravel/ui password reset to the email if it exists
+        $email = request('email');
+        $user = User::where('email', $email)->first();
+        if($user){
+            $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
+            return response()->json([
+                'status' => true,
+                'message' => 'Password reset link sent to your email',
+            ], 200);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Email does not exist',
+        ], 404);
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -20,6 +20,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
     Route::get('/','index' )->middleware('auth:sanctum');;
     Route::post('/register', 'store');
     Route::post('/login', 'create');
+    Route::post('/forgot-password','forgotPassword');
     Route::post('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
     Route::get('/getAuthUser','getAuthUser')->middleware('auth:sanctum');
