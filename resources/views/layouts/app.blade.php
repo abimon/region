@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Master Guide | {{ $title }}</title>
     <!-- plugins:css -->
-    <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+
+    <link rel="shortcut icon" href="/storage/images/Logo.png" type="image/x-icon">
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="/storage/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -42,12 +43,12 @@
                     <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
                         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img class="img-xs rounded-circle ms-2" src="{{Auth::user()->avatar ? asset(Auth::user()->avatar) : '/storage/images/user.png'}}" alt="Profile image">
-                            <span class="font-weight-normal"> {{Auth()->user()->name}} </span></a>
+                            <img class="img-xs rounded-circle ms-2" src="{{auth()->user()->avatar ? asset(auth()->user()->avatar) : '/storage/images/user.png'}}" alt="Profile image">
+                            <span class="font-weight-normal"> {{auth()->user()->name}} </span></a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
-                                <p class="mb-1 mt-3">{{Auth()->user()->name}}</p>
-                                <p class="font-weight-light text-muted mb-0">{{Auth()->user()->email}}</p>
+                                <p class="mb-1 mt-3">{{auth()->user()->name}}</p>
+                                <p class="font-weight-light text-muted mb-0">{{auth()->user()->email}}</p>
                             </div>
                             <a class="dropdown-item" href="/profile">
                                 <i class="dropdown-item-icon icon-user text-primary"></i> My
@@ -85,13 +86,13 @@
                         <a href="#" class="nav-link">
                             <div class="profile-image">
                                 <img class="img-xs rounded-circle"
-                                    src="{{Auth::user()->avatar ? asset(Auth::user()->avatar) : '/storage/images/user.png'}}"
+                                    src="{{auth()->user()->avatar ? asset(auth()->user()->avatar) : '/storage/images/user.png'}}"
                                     alt="profile image">
                                 <div class="dot-indicator bg-success"></div>
                             </div>
                             <div class="text-wrapper">
-                                <p class="profile-name">{{Auth::user()->name}}</p>
-                                <p class="designation">{{Auth::user()->role ? Auth::user()->role : 'Guest'}}</p>
+                                <p class="profile-name">{{auth()->user()->name}}</p>
+                                <p class="designation">{{auth()->user()->role ? auth()->user()->role : 'Guest'}}</p>
                             </div>
                         </a>
                     </li>
@@ -160,15 +161,15 @@
             <div class="main-panel">
                 <!-- content wrapper -->
                 <div class="content-wrapper">
-                    @if(Session::has('success'))
+                    @if(session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ Session::get('success') }}
+                        {{ session()->get('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    @if(Session::has('error'))
+                    @if(session()->has('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ Session::get('error') }}
+                        {{ session()->get('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif

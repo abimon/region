@@ -9,17 +9,29 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Assessor;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return view('landing');
 });
 
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/features', function () {
+    return view('features');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
 Auth::routes();
 
 Route::controller(HomeController::class)->group(function () {
-    // Route::get('/', 'index');
+    Route::post('/contact', 'contact');
     Route::get('/dashboard','dashboard')->middleware('auth');
 });
 Route::middleware('auth')->group(function () {
@@ -48,9 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sendUserEmail/{id}',[ExamController::class,'sendUserEmail']);
 });
 
-// Route::get('/certs',function(){
-//     return view('certificate');
-// });
+Route::get('/download-app',function(){
+    return Redirect::to('https://play.google.com/store/apps/details?id=com.masterguide');
+});
 Route::get('/certs', function () {
     return view('certificate');
 });

@@ -55,6 +55,8 @@ class UserController extends Controller
         $email = request('email');
         $user = User::where('email', $email)->first();
         if($user){
+            // delete all tokens associated with the user
+            $user->tokens()->delete();
             $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
             return response()->json([
                 'status' => true,
@@ -96,6 +98,7 @@ class UserController extends Controller
             }
 
             $user = User::where('email', request()->email)->first();
+            $user->tokens()->delete();
             Auth::login($user);
             return response()->json([
                 'status' => true,
