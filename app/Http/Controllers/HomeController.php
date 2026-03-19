@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegionEmail;
 use App\Models\Announcement;
 use App\Models\Assigment;
 use App\Models\ClassMember;
 use App\Models\Contact;
 use App\Models\Lesson;
+use App\Models\SentMails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -105,5 +107,20 @@ class HomeController extends Controller
         // curl_close($curl);
         $res = json_decode($response);
         return $res->status_code;
+    }
+
+    public function sendBulkEmail($email,$subject,$message)
+    {
+        
+        $log = SentMails::create([
+                'email' => $email,
+                'subject' => $subject,
+                'status' => 'pending',
+            ]);
+        Mail::to($email)->queue(new RegionEmail($subject, $message));
+        // $log->update(['status' => 'sent']);
+        
+
+        return response()->json(['message' => 'Emails are being processed!']);
     }
 }
