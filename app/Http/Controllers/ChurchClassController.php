@@ -136,4 +136,14 @@ class ChurchClassController extends Controller
     {
         //
     }
+
+    public function available(){
+        $churches = Church::all();
+        foreach($churches as $church){
+            $church->classes = ChurchClass::where('church_id', $church->id)->get();
+        }
+        if (request()->is('api/*')) {
+            return response()->json(['data' => $churches, 'message' => 'Churches retrieved successfully'], 200);
+        }
+    }
 }
