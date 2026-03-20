@@ -36,9 +36,9 @@ class ChurchClassController extends Controller
         $classes = ChurchClass::whereIn('id', $membership->pluck('church_class_id')->toArray())->get();
         foreach ($classes as $class) {
             $class->church = Church::findOrFail($class->church_id)->name;
-            foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
-                $class->role = ucfirst($value->first()->role);
-                $class->status = ucfirst($value->first()->status);
+            foreach ($membership->where('church_class_id', $class->id) as  $value) {
+                $class->role = ucfirst($value->role);
+                $class->status = ucfirst($value->status);
             }
         }
         if (request()->is('api/*')) {
