@@ -130,9 +130,12 @@ class ChurchClassController extends Controller
             return response()->json(['message' => 'Class enrolled successfully'], 200);
         }
     }
-    public function destroy(ChurchClass $churchClass)
+    public function destroy($id)
     {
-        //
+        ChurchClass::destroy($id);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'Class deleted successfully'], 200);
+        }
     }
 
     public function available()

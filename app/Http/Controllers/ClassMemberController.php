@@ -107,8 +107,12 @@ class ClassMemberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClassMember $classMember)
+    public function destroy($id)
     {
-        //
+        ClassMember::destroy($id);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'Class membership deleted successfully'], 200);
+        }
+        return redirect()->back()->with('success', 'Class membership deleted successfully');
     }
 }
