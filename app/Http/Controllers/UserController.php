@@ -20,7 +20,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $roles = ['Member', 'CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Guest', 'Assessor'];
         $conference = ['Admin','CYD/FYD'];
         $region = ['Area Co-ordinator', 'Assessor'];
         $local = ['Director', 'Ass. Director', 'Elder', 'Instructor','Member'];
@@ -110,7 +109,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 401);
         }
     }
 

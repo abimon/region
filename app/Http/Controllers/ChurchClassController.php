@@ -20,10 +20,9 @@ class ChurchClassController extends Controller
         $classes = ChurchClass::whereIn('id', $membership->pluck('church_class_id')->toArray())->get();
         foreach ($classes as $class) {
             $class->church = Church::findOrFail($class->church_id)->name;
-            foreach ($membership->where('church_class_id', $class->id) as $key => $value) {
-                $class->role = ucfirst($value->first()->role);
-                $class->status = ucfirst($value->first()->status);
-            }
+            $mem =  ClassMember::where([['user_id', Auth::user()->id], ['church_class_id', $class->id]])->first();
+            $class->role = ucfirst($mem->role);
+            $class->status = ucfirst($mem->status);
         }
         if (request()->is('api/*')) {
             return response()->json(['classes' => $classes, 'message' => 'Classes retrieved successfully'], 200);
