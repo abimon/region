@@ -175,15 +175,16 @@ class UserController extends Controller
             $church_id = Church::where('name', request('institution'))->first()->id;
             $age = Carbon::parse(request('dob'))->age;
             if ($age < 10) {
-                $class_id = ChurchClass::where([['class_name', 'Adventurers'], ['church_id', $church_id]])->first()->id;
+                $class_id = ChurchClass::where([['class_name', 'Adventurers'], ['church_id', $church_id],['role',$user->role]])->first()->id;
             } elseif ($age < 16) {
-                $class_id = ChurchClass::where([['class_name', 'Pathfinders'], ['church_id', $church_id]])->first()->id;
+                $class_id = ChurchClass::where([['class_name', 'Pathfinders'], ['church_id', $church_id],['role',$user->role]])->first()->id;
             } else {
                 $class_id = ChurchClass::where([['class_name', 'Masterguide'], ['church_id', $church_id]])->first()->id;
             }
             ClassMember::create([
                 'church_class_id' => $class_id,
                 'user_id' => $user->id,
+                'role'=> $user->role
             ]);
             return response()->json([
                 'user' => $user,
