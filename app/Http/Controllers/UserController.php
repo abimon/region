@@ -229,14 +229,14 @@ class UserController extends Controller
             if (request('role') != null) {
                 $user->role = request('role');
             }
-            if (request('image') != null) {
-                $file = request()->file('image');
-                $fileName = ($user->last_name) . time() . '.' . $file->getClientOriginalExtension();
-                if (request('title') == 'avatar') {
-                    $file->move('storage/avatars', $fileName);
-                    $user->avatar = '/storage/avatars/' . $fileName;
-                }
-            }
+            // if (request('image') != null) {
+            //     $file = request()->file('image');
+            //     $fileName = ($user->last_name) . time() . '.' . $file->getClientOriginalExtension();
+            //     if (request('title') == 'avatar') {
+            //         $file->move('storage/avatars', $fileName);
+            //         $user->avatar = '/storage/avatars/' . $fileName;
+            //     }
+            // }
             if (request()->file('cover_image') != null) {
                 $file = request()->file('cover_image');
                 $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
