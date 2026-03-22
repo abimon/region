@@ -63,7 +63,7 @@ class UserController extends Controller
             // $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
             return response()->json([
                 'status' => true,
-                'otp' => str($code),
+                'otp' => $code,
                 'message' => 'Password reset link sent to your email',
             ], 200);
         }
