@@ -60,10 +60,12 @@ class UserController extends Controller
             $user->tokens()->delete();
             $code = rand(1000, 9999);
             $this->sendEmail($user->name, request('email'), 'Your password reset code is: ' . $code, 'Password Reset Code');
-            // $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
+            
+            $user->save();
             return response()->json([
                 'status' => true,
                 'otp' => $code,
+                'token'=>$user->createToken("API TOKEN")->plainTextToken,
                 'message' => 'Password reset link sent to your email',
             ], 200);
         }
