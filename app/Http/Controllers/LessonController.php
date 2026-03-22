@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ClassMember;
 use App\Models\Lesson;
 use App\Models\LessonResource;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +45,8 @@ class LessonController extends Controller
                 'comments'=>request('comments')??null,
                 'created_by'=>Auth::id()
             ]);
+            $content = request('title').' class has been scheduled for '.Carbon::parse(request('date'))->toFormattedDateString().'. The class '. request('venue_type')=='online'?'link':'venue'. ' will be '.request('venue');
+            $this->sendEmail($content,'New Class', request('class_id'));
             if(request()->is('api/*')){
                 return response()->json(['message'=>'Lesson created successfully'],201);
             }
@@ -143,15 +144,19 @@ class LessonController extends Controller
         }
         return view('lessons.show',compact('attendance'));
     }
-    public function sendEmail($user, $email, $content, $subject)
+    public function sendEmail($content, $subject,$id)
     {
-        Mail::send(
-            'message',
-            ['user' => $user, 'content' => $content],
-            function ($message) use ($user, $email, $subject) {
-                $message->to($email, $user)->subject($subject);
-            }
-        );
+        $members = ClassMember::where([['church_class_id',$id], ['status', 'approved']])->get();
+        foreach($members as $member){
+            $user = $member->user;
+            Mail::send(
+                'message',
+                ['user' => $user->name, 'content' => $content],
+                function ($message) use ($user, $subject) {
+                    $message->to($user->email, $user->name)->subject($subject);
+                }
+            );
+        }
     }
 
 }

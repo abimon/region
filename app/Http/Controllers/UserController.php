@@ -57,7 +57,7 @@ class UserController extends Controller
         if($user){
             // delete all tokens associated with the user
             $user->tokens()->delete();
-            $code = uniqid();
+            $code = rand(1000,9999);
             $this->sendEmail($user->name,request('email'),'Your password reset code is: '.$code,'Password Reset Code');
             // $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
             return response()->json([
