@@ -21,54 +21,71 @@ class UserController extends Controller
      */
     public function index()
     {
-        $conference = ['Admin','CYD/FYD'];
+        $conference = ['Admin', 'CYD/FYD'];
         $region = ['Area Co-ordinator', 'Assessor'];
-        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor','Member'];
-        if(in_array(Auth::user()->role,$conference)){
-            $users = User::orderBy('name','asc')->get();
-            $message= 'All users';
-        }elseif(in_array(Auth::user()->role,$region)){
-            $churches = Church::where('station',Auth::user()->church->station)->get();
-            $users = User::whereIn('institution',$churches->pluck('name'))->orderBy('name', 'asc')->get();
-            $message= 'All users in your region';
-        }elseif(in_array(Auth::user()->role,$local)){
-            $users =User::where('institution', Auth::user()->institution)->orderBy('name','asc')->get();
-            $message= 'All users in your church';
-        }else{
+        $local = ['Director', 'Ass. Director', 'Elder', 'Instructor', 'Member'];
+        if (in_array(Auth::user()->role, $conference)) {
+            $users = User::orderBy('name', 'asc')->get();
+            $message = 'All users';
+        } elseif (in_array(Auth::user()->role, $region)) {
+            $churches = Church::where('station', Auth::user()->church->station)->get();
+            $users = User::whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
+            $message = 'All users in your region';
+        } elseif (in_array(Auth::user()->role, $local)) {
+            $users = User::where('institution', Auth::user()->institution)->orderBy('name', 'asc')->get();
+            $message = 'All users in your church';
+        } else {
             $users = [];
-            $message= 'No users';
+            $message = 'No users';
         }
-        if(request()->is('api/*')){
+        if (request()->is('api/*')) {
             return response()->json([
                 'status' => true,
                 'message' => $message,
                 'users' => $users,
             ], 200);
         }
-        
+
         return view('user.index', compact('users'));
     }
 
-    public function forgotPassword(){
+    public function forgotPassword()
+    {
         // get email from link and verify if it exists in the database
         // send a reset password link that utelizes the laravel/ui password reset to the email if it exists
         $email = request('email');
         $user = User::where('email', $email)->first();
-        if($user){
+        if ($user) {
             // delete all tokens associated with the user
             $user->tokens()->delete();
-            $code = rand(1000,9999);
-            $this->sendEmail($user->name,request('email'),'Your password reset code is: '.$code,'Password Reset Code');
+            $code = rand(1000, 9999);
+            $this->sendEmail($user->name, request('email'), 'Your password reset code is: ' . $code, 'Password Reset Code');
             // $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
             return response()->json([
                 'status' => true,
-                'code'=>$code,
+                'code' => $code,
                 'message' => 'Password reset link sent to your email',
             ], 200);
         }
         return response()->json([
             'status' => false,
             'message' => 'Email does not exist',
+        ], 404);
+    }
+    public function resetPassword()
+    {
+        $user = User::findOrFail(Auth::id());
+        if (request('password') != null) {
+            $user->password = Hash::make(request('password'));
+            $user->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Password reset successfully',
+            ], 200);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Password not provided',
         ], 404);
     }
     /**
@@ -157,16 +174,16 @@ class UserController extends Controller
             ]);
             $church_id = Church::where('name', request('institution'))->first()->id;
             $age = Carbon::parse(request('dob'))->age;
-            if($age<10){
-                $class_id = ChurchClass::where([['class_name','Adventurers'],['church_id',$church_id]])->first()->id;
-            }elseif($age<16){
-                $class_id = ChurchClass::where([['class_name','Pathfinders'],['church_id',$church_id]])->first()->id;
-            }else{
-                $class_id = ChurchClass::where([['class_name', 'Masterguide'],['church_id',$church_id]])->first()->id;
+            if ($age < 10) {
+                $class_id = ChurchClass::where([['class_name', 'Adventurers'], ['church_id', $church_id]])->first()->id;
+            } elseif ($age < 16) {
+                $class_id = ChurchClass::where([['class_name', 'Pathfinders'], ['church_id', $church_id]])->first()->id;
+            } else {
+                $class_id = ChurchClass::where([['class_name', 'Masterguide'], ['church_id', $church_id]])->first()->id;
             }
             ClassMember::create([
-                'church_class_id'=>$class_id,
-                'user_id'=>$user->id,
+                'church_class_id' => $class_id,
+                'user_id' => $user->id,
             ]);
             return response()->json([
                 'user' => $user,
@@ -201,7 +218,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function apiUpdate($id){
+    public function apiUpdate($id)
+    {
         return response()->json(['message' => 'User Updated Successfully'], 200);
     }
     public function update($id)
@@ -283,16 +301,17 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         User::destroy($user->id);
-        if(request()->has('api/*')){
+        if (request()->has('api/*')) {
             return response()->json([
                 'status' => true,
                 'message' => 'User Deleted Successfully'
             ]);
-        }else{
+        } else {
             return back()->with('success', 'User Deleted Successfully');
         }
     }
-    public function getAuthUser(){
+    public function getAuthUser()
+    {
         try {
             $user = Auth::user();
             return response()->json(['status' => true, 'message' => 'User fetched successfully', 'user' => $user], 200);
@@ -309,23 +328,24 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
         }
     }
-    public function stats(){
+    public function stats()
+    {
         $roles = ['CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Assessor'];
         $sts = ['Member', 'Visitor', 'Guest'];
-        $students=[];
-        $instructors=[];
-        $lessons=0;
-        $churches=0;
-        if(request('role')=='admin'){
+        $students = [];
+        $instructors = [];
+        $lessons = 0;
+        $churches = 0;
+        if (request('role') == 'admin') {
             $students = User::whereIn('role', $sts)->get();
             $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->get();
             $lessons = Lesson::all()->count();
             $churches = Church::all()->count();
-        }else{
+        } else {
             $students = User::whereIn('role', $sts)->where('institution', Auth::user()->institution)->get();
             $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->where('institution', Auth::user()->institution)->get();
         }
-        return response()->json(['students'=>$students->count()??0, 'instructors'=>$instructors->count()??0,'lessons'=>$lessons,'churches'=>$churches]);
+        return response()->json(['students' => $students->count() ?? 0, 'instructors' => $instructors->count() ?? 0, 'lessons' => $lessons, 'churches' => $churches]);
     }
     public function sendEmail($user, $email, $content, $subject)
     {
