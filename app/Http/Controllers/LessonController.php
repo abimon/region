@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class LessonController extends Controller
 {
@@ -141,6 +142,16 @@ class LessonController extends Controller
             return response()->json(['attendance'=>$attendance]);
         }
         return view('lessons.show',compact('attendance'));
+    }
+    public function sendEmail($user, $email, $content, $subject)
+    {
+        Mail::send(
+            'message',
+            ['user' => $user, 'content' => $content],
+            function ($message) use ($user, $email, $subject) {
+                $message->to($email, $user)->subject($subject);
+            }
+        );
     }
 
 }

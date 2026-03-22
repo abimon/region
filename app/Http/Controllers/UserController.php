@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -56,9 +57,12 @@ class UserController extends Controller
         if($user){
             // delete all tokens associated with the user
             $user->tokens()->delete();
-            $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
+            $code = uniqid();
+            $this->sendEmail($user->name,request('email'),'Your password reset code is: '.$code,'Password Reset Code');
+            // $user->sendPasswordResetNotification($user->createToken('password-reset')->plainTextToken);
             return response()->json([
                 'status' => true,
+                'code'=>$code,
                 'message' => 'Password reset link sent to your email',
             ], 200);
         }
@@ -322,5 +326,15 @@ class UserController extends Controller
             $instructors = User::whereIn('role', $roles)->orWhere('isInvested', true)->where('institution', Auth::user()->institution)->get();
         }
         return response()->json(['students'=>$students->count()??0, 'instructors'=>$instructors->count()??0,'lessons'=>$lessons,'churches'=>$churches]);
+    }
+    public function sendEmail($user, $email, $content, $subject)
+    {
+        Mail::send(
+            'message',
+            ['user' => $user, 'content' => $content],
+            function ($message) use ($user, $email, $subject) {
+                $message->to($email, $user)->subject($subject);
+            }
+        );
     }
 }

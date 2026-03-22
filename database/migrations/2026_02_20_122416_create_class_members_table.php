@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('church_class_id')->constrained('church_classes')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('role')->default('member'); // e.g., 'member', 'leader'
-            $table->string('status')->default('active'); //e.g approved, pending, rejected
+            $table->string('status')->default('pending'); //e.g approved, pending, rejected
             $table->timestamps();
         });
     }
