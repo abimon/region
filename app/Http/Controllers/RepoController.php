@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Repo;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class RepoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $repos = Repo::where('owner_id',Auth::user()->id)->orWhere('isPublic',true)->get();
+        if(request()->is('api/*')){
+            return $repos;
+        }
+        return view('repo.index',compact('repos'));
+    }
+
+    public function repo(){
+        $repos = Repo::where('isPublic', true)->get();
+        if (request()->is('api/*')) {
+            return $repos;
+        }
+        return view('repo.index', compact('repos'));
+    }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store()
+    {
+        if(request()->hasFile('file')){
+            $extension = request()->file('file')->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file = request()->file('file');
+            $file->move('storage/repos', $filename);
+        }
+        Repo::create([
+            "name"=>request('name'),
+            "description"=>request('description'),
+            "path"=>'storage/repos/'.$filename,
+            "owner_id"=>Auth::user()->id,
+            "language"=>request('language')??'English',
+            "isPublic"=>request('isPublic')??false,
+        ]);
+        if(request()->is('api/*')){
+            return response()->json(['message'=>'Repo created successfully']);
+        }
+        return back()->with('success','Repo created successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Repo $repo)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Repo $repo)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Repo $repo)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        Repo::destroy($id);
+        if(request()->is('api/*')){
+            return response()->json(['message'=>'Repo deleted successfully']);
+        }
+        return back()->with('success','Repo deleted successfully');
+    }
+}
