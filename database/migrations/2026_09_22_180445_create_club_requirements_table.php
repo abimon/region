@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('club');
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChurchClassController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\ClassMemberController;
+use App\Http\Controllers\ClubRequirementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MreqController;
@@ -77,7 +78,7 @@ Route::controller(MreqController::class)->prefix('/mrequests')->middleware('auth
     Route::delete('/delete/{id}', 'destroy');
 });
 
-Route::controller(ChurchClassController::class)->prefix('/classes')->middleware('auth:sanctum')->group(function () {
+Route::controller(ClubRequirementController::class)->prefix('/requirements')->middleware('auth:sanctum')->group(function () {
     Route::get('/','index');
     Route::post('/store', 'store');
     Route::get('/show/{id}', 'show');

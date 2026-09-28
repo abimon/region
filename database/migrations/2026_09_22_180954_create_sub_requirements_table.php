@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sub_requirements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('requirement_id')->constrained('club_requirements')->onDelete('cascade');
-            $table->string('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }

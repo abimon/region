@@ -13,7 +13,11 @@ class ClubRequirementController extends Controller
      */
     public function index()
     {
-        
+        $requirements= ClubRequirement::where('club',request('club'))->with('subrequirements')->get();
+        if(request()->is('api/*')){
+            return response()->json(['requirements'=>$requirements],200);
+        }
+        return view('clubrequirements.index',compact('requirements'));
     }
 
     /**

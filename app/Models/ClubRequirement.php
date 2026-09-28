@@ -12,4 +12,8 @@ class ClubRequirement extends Model
         'title',
         'description',
     ];
+
+    public function subrequirements(){
+        return $this->hasMany(SubRequirement::class, 'requirement_id');
+    }
 }
