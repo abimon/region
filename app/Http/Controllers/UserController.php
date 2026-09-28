@@ -147,7 +147,7 @@ class UserController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'password' => 'required|min:8',
                     'contact' => 'required|min:9',
-                    'institution' => 'required',
+                    'church' => 'required',
                     'dob' => 'required',
                     'gender' => 'required',
                     'club'=>'required',
