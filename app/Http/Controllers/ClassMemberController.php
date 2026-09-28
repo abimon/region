@@ -13,8 +13,9 @@ class ClassMemberController extends Controller
      */
     public function index()
     {
-        
-        $classMembers = ClassMember::where('class_members.church_class_id', request('class_id'))->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.role', 'class_members.status')->orderBy('users.name','asc')->get();
+        $user_classes = ClassMember::where('user_id', Auth::id())->get();
+        $ids = $user_classes->pluck('church_id')->toArray();
+        $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.role', 'class_members.status')->orderBy('users.name','asc')->get();
        
         if (request()->is('api/*')) {
             return response()->json(['members'=>$classMembers], 200);
