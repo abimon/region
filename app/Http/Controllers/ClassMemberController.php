@@ -13,12 +13,18 @@ class ClassMemberController extends Controller
      */
     public function index()
     {
-        $user_classes = ClassMember::where('user_id', Auth::id())->get();
-        $ids = $user_classes->pluck('church_id')->toArray();
-        $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.role', 'class_members.status')->orderBy('users.name','asc')->get();
-       
+
+        if (Auth::user()->role == 'Super Admin') {
+            $user_classes = ClassMember::where('user_id', Auth::id())->get();
+            $ids = $user_classes->pluck('church_id')->toArray();
+            $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->get()->paginate(10);
+        } else {
+            $user_classes = ClassMember::where('user_id', Auth::id())->get();
+            $ids = $user_classes->pluck('church_id')->toArray();
+            $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->get()->paginate(10);
+        }
         if (request()->is('api/*')) {
-            return response()->json(['members'=>$classMembers], 200);
+            return response()->json(['members' => $classMembers], 200);
         }
         return $classMembers;
     }
@@ -55,7 +61,7 @@ class ClassMemberController extends Controller
             }
         } catch (\Throwable $th) {
             if (request()->is('api/*')) {
-                return response()->json(['message' => 'An error occurred. '.$th->getMessage()], 500);
+                return response()->json(['message' => 'An error occurred. ' . $th->getMessage()], 500);
             }
             return redirect()->back()->with('error', 'An error occurred');
         }
@@ -66,13 +72,13 @@ class ClassMemberController extends Controller
      */
     public function show($id)
     {
-        
-        $classMembers = ClassMember::where('class_members.church_class_id',$id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.*')->orderBy('users.name','asc')->get();
-        foreach($classMembers as $classMember){
+
+        $classMembers = ClassMember::where('class_members.church_class_id', $id)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'class_members.*')->orderBy('users.name', 'asc')->get();
+        foreach ($classMembers as $classMember) {
             $classMember->class = $classMember->church_class->class_name;
         }
         if (request()->is('api/*')) {
-            return response()->json(['members'=>$classMembers], 200);
+            return response()->json(['members' => $classMembers], 200);
         }
         return $classMembers;
         // return view('admin.classMembers.show', compact('classMember'));

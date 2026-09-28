@@ -145,7 +145,6 @@ class UserController extends Controller
                 [
                     'name' => 'required|string|unique:users,name',
                     'email' => 'required|email|unique:users,email',
-                    'password' => 'required|min:8',
                     'contact' => 'required|min:9',
                     'church' => 'required',
                     'dob' => 'required',
@@ -163,11 +162,12 @@ class UserController extends Controller
                 ], 401);
             }
             $church = Church::where('name', request('church'))->first();
+            $password =uniqid();
             $user = User::create([
                 'name' => request('name'),
                 'contact' => request('contact'),
                 'email' => request('email'),
-                'password' => Hash::make(request('password')),
+                'password' => Hash::make($password),
                 'church_id' => $church->id,
                 'dob' => request('dob'),
                 'gender' => request('gender'),
@@ -180,7 +180,7 @@ class UserController extends Controller
                 'message',
                 [
                     'user' => $user->name,
-                    'content' => 'Your password is ' . request('password'). ' and your email is ' . request('email').'. Kindly login to your account and change your password.'
+                    'content' => 'Your password is ' . $password. ' and your email is ' . request('email').'. Kindly login to your account and change your password.'
                 ],
                 function ($message) use ($user) {
                     $message->to($user->email, $user->name)->subject('Welcome to Masterguide Tools');
@@ -193,7 +193,6 @@ class UserController extends Controller
                 'role' => request('role') ?? 'Member',
                 'status' => 'active'
             ]);
-
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
@@ -258,14 +257,6 @@ class UserController extends Controller
             if (request('role') != null) {
                 $user->role = request('role');
             }
-            // if (request('image') != null) {
-            //     $file = request()->file('image');
-            //     $fileName = ($user->last_name) . time() . '.' . $file->getClientOriginalExtension();
-            //     if (request('title') == 'avatar') {
-            //         $file->move('storage/avatars', $fileName);
-            //         $user->avatar = '/storage/avatars/' . $fileName;
-            //     }
-            // }
             if (request()->file('cover_image') != null) {
                 $file = request()->file('cover_image');
                 $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
