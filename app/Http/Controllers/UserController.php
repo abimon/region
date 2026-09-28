@@ -177,7 +177,7 @@ class UserController extends Controller
                 'parent_id' => request('parent_id') ?? null,
             ]);
             Mail::send(
-                'mail',
+                'message',
                 [
                     'user' => $user->name,
                     'content' => 'Your password is ' . request('password'). ' and your email is ' . request('email').'. Kindly login to your account and change your password.'
