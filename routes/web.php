@@ -28,7 +28,7 @@ Route::get('/features', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
-Auth::routes();
+Auth::routes(['register'=>false]);
 
 Route::controller(HomeController::class)->group(function () {
     Route::post('/contact', 'contact');
