@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\ChurchClassController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\ClassMemberController;
 use App\Http\Controllers\ClubRequirementController;
@@ -78,15 +77,12 @@ Route::controller(MreqController::class)->prefix('/mrequests')->middleware('auth
     Route::delete('/delete/{id}', 'destroy');
 });
 
-Route::controller(ClubRequirementController::class)->prefix('/requirements')->middleware('auth:sanctum')->group(function () {
+Route::controller(ClubRequirementController::class)->prefix('/requirements')->group(function () {
     Route::get('/','index');
-    Route::post('/store', 'store');
-    Route::get('/show/{id}', 'show');
-    Route::get('/data/{id}', 'class_data');
-    Route::put('/update/{id}', 'update');
-    Route::delete('/delete/{id}', 'destroy');
-    Route::get('/getUserClasses/{id}', 'getUserClasses');
-    Route::get('/available-classes', 'available');
+    Route::post('/store', 'store')->middleware('auth:sanctum');
+    Route::get('/show/{id}', 'show')->middleware('auth:sanctum');
+    Route::put('/update/{id}', 'update')->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', 'destroy')->middleware('auth:sanctum');
 });
 Route::controller(ClassMemberController::class)->prefix('/class-members')->middleware('auth:sanctum')->group(function () {
     Route::get('/','index');
