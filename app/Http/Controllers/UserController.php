@@ -41,7 +41,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => $message,
                 'users' => $users,
-                'church'=>Church::where('name', Auth::user()->institution)->first()
+                'church' => Church::where('name', Auth::user()->institution)->first()
             ], 200);
         }
 
@@ -57,12 +57,12 @@ class UserController extends Controller
             $user->tokens()->delete();
             $code = rand(1000, 9999);
             $this->sendEmail($user->name, request('email'), 'Your password reset code is: ' . $code, 'Password Reset Code');
-            
+
             $user->save();
             return response()->json([
                 'status' => true,
                 'otp' => $code,
-                'token'=>$user->createToken("API TOKEN")->plainTextToken,
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
                 'message' => 'Password reset link sent to your email',
             ], 200);
         }
@@ -123,7 +123,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'user' => Auth::user(),
-                'church'=>Church::where('name', Auth::user()->institution)->first(),
+                'church' => Church::where('name', Auth::user()->institution)->first(),
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         } catch (\Throwable $th) {
@@ -150,8 +150,8 @@ class UserController extends Controller
                     'church' => 'required',
                     'dob' => 'required',
                     'gender' => 'required',
-                    'club'=>'required',
-                    'class'=>'required',
+                    'club' => 'required',
+                    'class' => 'required',
                 ]
             );
 
@@ -162,28 +162,38 @@ class UserController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
-            $church= Church::where('name', request('church'))->first();
+            $church = Church::where('name', request('church'))->first();
             $user = User::create([
                 'name' => request('name'),
                 'contact' => request('contact'),
                 'email' => request('email'),
                 'password' => Hash::make(request('password')),
-                'church_id' =>$church->id,
+                'church_id' => $church->id,
                 'dob' => request('dob'),
                 'gender' => request('gender'),
                 'role' => request('role') ?? 'Member',
                 'class' => request('class') ?? 'master-guide',
-                'club' => request('club') ,
+                'club' => request('club'),
                 'parent_id' => request('parent_id') ?? null,
             ]);
+            Mail::send(
+                'mail',
+                [
+                    'user' => $user->name,
+                    'content' => 'Your password is ' . request('password'). ' and your email is ' . request('email').'. Kindly login to your account and change your password.'
+                ],
+                function ($message) use ($user) {
+                    $message->to($user->email, $user->name)->subject('Welcome to Masterguide Tools');
+                }
+            );
             ClassMember::create([
-                'church_id'=>$church->id,
-                'user_id'=>$user->id,
-                'class'=> request('class') ?? 'master-guide' ,
-                'role'=> request('role') ?? 'Member',
-                'status'=>'active'
+                'church_id' => $church->id,
+                'user_id' => $user->id,
+                'class' => request('class') ?? 'master-guide',
+                'role' => request('role') ?? 'Member',
+                'status' => 'active'
             ]);
-            
+
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
@@ -345,7 +355,7 @@ class UserController extends Controller
             $instructors = User::where('role', 'Instructor')->where('institution', Auth::user()->institution)->get()->count();
             $leaders = User::whereIn('role', $roles)->where('institution', Auth::user()->institution)->get()->count();
         }
-        return response()->json(['students' => $students, 'instructors' => $instructors, 'lessons' => $lessons, 'churches' => $churches,'leaders'=>$leaders]);
+        return response()->json(['students' => $students, 'instructors' => $instructors, 'lessons' => $lessons, 'churches' => $churches, 'leaders' => $leaders]);
     }
     public function sendEmail($user, $email, $content, $subject)
     {

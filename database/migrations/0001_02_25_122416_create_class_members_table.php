@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('class_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('church_id')->constrained('church')->onDelete('cascade');
+            $table->foreignId('church_id')->constrained('churches')->onDelete('cascade');
             $table->string('class');
             $table->string('role')->default('Member'); // e.g., 'member', 'leader'
             $table->string('status')->default('pending'); //e.g approved, pending, rejected
