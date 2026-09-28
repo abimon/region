@@ -73,7 +73,6 @@
                                 {{ __('Forgot Your Password?') }}
                             </a>
                             @endif
-                            <p class="mt-3">Don't have an account? <a href="{{ route('register') }}">Register</a></p>
                         </div>
                     </div>
                 </div>
