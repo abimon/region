@@ -1250,7 +1250,7 @@ class DatabaseSeeder extends Seeder
                 ]);
                 foreach($requirement['subrequirements'] as $subrequirement){
                     SubRequirement::create([
-                        'club_requirement_id'=>$req->id,
+                        'requirement_id'=>$req->id,
                         'description'=>$subrequirement
                     ]);
                 }
