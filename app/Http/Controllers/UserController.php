@@ -123,7 +123,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'user' => Auth::user(),
-                'church' => Church::where('name', Auth::user()->institution)->first(),
+                'church' => Church::find(Auth::user()->church_id ?? 1),
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         } catch (\Throwable $th) {
@@ -162,7 +162,7 @@ class UserController extends Controller
                 ], 401);
             }
             $church = Church::where('name', request('church'))->first();
-            $password =uniqid();
+            $password = uniqid();
             $user = User::create([
                 'name' => request('name'),
                 'contact' => request('contact'),
@@ -180,7 +180,7 @@ class UserController extends Controller
                 'message',
                 [
                     'user' => $user->name,
-                    'content' => 'Your password is ' . $password. ' and your email is ' . request('email').'. Kindly login to your account and change your password.'
+                    'content' => 'Your password is ' . $password . ' and your email is ' . request('email') . '. Kindly login to your account and change your password.'
                 ],
                 function ($message) use ($user) {
                     $message->to($user->email, $user->name)->subject('Welcome to Masterguide Tools');
