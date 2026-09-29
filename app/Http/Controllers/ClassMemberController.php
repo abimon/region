@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,15 +14,25 @@ class ClassMemberController extends Controller
      */
     public function index()
     {
-
+        foreach(User::all() as $user){
+            if(!ClassMember::where('user_id', $user->id)->exists()){
+                ClassMember::create([
+                    'church_id'=>$user->church_id,
+                    'user_id'=>$user->id,
+                    'class'=>$user->class,
+                    'role'=>$user->role,
+                    'status'=>'active'
+                ]);
+            }
+        }
         if (Auth::user()->role == 'Super Admin') {
             $user_classes = ClassMember::where('user_id', Auth::id())->get();
             $ids = $user_classes->pluck('church_id')->toArray();
-            $classMembers = ClassMember::join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'users.class','users.club', 'class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->paginate(10);
+            $classMembers = ClassMember::join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'users.class','users.dob','users.club', 'class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->paginate(10);
         } else {
             $user_classes = ClassMember::where('user_id', Auth::id())->get();
             $ids = $user_classes->pluck('church_id')->toArray();
-            $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'users.class', 'users.club','class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->paginate(10);
+            $classMembers = ClassMember::whereIn('class_members.church_id', $ids)->join('users', 'users.id', '=', 'class_members.user_id')->select('users.name', 'users.avatar', 'users.contact', 'users.class','users.dob', 'users.club','class_members.role', 'class_members.status')->orderBy('users.name', 'asc')->paginate(10);
         }
         if (request()->is('api/*')) {
             return response()->json(['members' => $classMembers], 200);
