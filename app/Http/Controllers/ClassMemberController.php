@@ -15,7 +15,8 @@ class ClassMemberController extends Controller
     public function index()
     {
         foreach(User::all() as $user){
-            if(!ClassMember::where('user_id', $user->id)->exists()){
+            if(!ClassMember::where('user_id', $user->id)->exists() && $user->role != 'Super Admin'){
+                
                 ClassMember::create([
                     'church_id'=>$user->church_id,
                     'user_id'=>$user->id,
