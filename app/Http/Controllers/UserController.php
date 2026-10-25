@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $conference = ['Admin', 'CYD/FYD'];
+        $conference = ['Admin', 'CYD/FYD', 'superadmin'];
         $region = ['Area Co-ordinator', 'Assessor'];
         $local = ['Director', 'Ass. Director', 'Elder', 'Instructor', 'Member'];
         if (in_array(Auth::user()->role, $conference)) {
