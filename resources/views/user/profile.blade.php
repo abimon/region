@@ -105,7 +105,7 @@
                                             <div class="modal-body" style="color:black;">
                                                 <div class="mb-3">
                                                     <label for="role" class="form-label">Select Role</label>
-                                                    <select name="role" id="role" class="form-select" required>
+                                                    <select name="role" id="role" class="form-select text-dark" required>
                                                         <option selected disabled>Select Program</option>
                                                         <?php $roles = ['Member', 'CYD/FYD', 'Area Co-ordinator', 'Director', 'Ass. Director', 'Elder', 'Instructor', 'Guest', 'Assessor', 'Admin']; ?>
                                                         @foreach ($roles as $role)
