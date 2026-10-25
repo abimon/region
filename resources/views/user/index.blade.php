@@ -80,9 +80,9 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="">
-            {{ $users->onEachSide(2)->links() }}
-        </div>
+    </div>
+    <div class="">
+        {{ $users->onEachSide(2)->links() }}
     </div>
 </div>
 @endsection
