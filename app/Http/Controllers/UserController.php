@@ -19,18 +19,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        $conference = ['Admin', 'CYD/FYD', 'superadmin'];
+        $conference = ['Admin', 'CYD/FYD', 'Super Admin'];
         $region = ['Area Co-ordinator', 'Assessor'];
         $local = ['Director', 'Ass. Director', 'Elder', 'Instructor', 'Member'];
         if (in_array(Auth::user()->role, $conference)) {
-            $users = User::orderBy('name', 'asc')->get();
+            $users = User::orderBy('name', 'asc')->paginate(25);
             $message = 'All users';
         } elseif (in_array(Auth::user()->role, $region)) {
             $churches = Church::where('station', Auth::user()->church->station)->get();
-            $users = User::whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->get();
+            $users = User::whereIn('institution', $churches->pluck('name'))->orderBy('name', 'asc')->paginate(25);
             $message = 'All users in your region';
         } elseif (in_array(Auth::user()->role, $local)) {
-            $users = User::where('institution', Auth::user()->institution)->orderBy('name', 'asc')->get();
+            $users = User::where('institution', Auth::user()->institution)->orderBy('name', 'asc')->paginate(25);
             $message = 'All users in your church';
         } else {
             $users = [];
