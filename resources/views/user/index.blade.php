@@ -61,7 +61,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->institution }}</td>
+                    <td>{{ $user->church->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{$user->contact }}</td>
                     <td class="text-uppercase">{{ $user->membership_no }}</td>

@@ -65,6 +65,6 @@ class User extends Authenticatable
     }
     
     public function church(){
-        return $this->belongsTo(Church::class, 'institution','name');
+        return $this->belongsTo(Church::class, 'church_id','id');
     }
 }
