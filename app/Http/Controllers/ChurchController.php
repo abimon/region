@@ -14,7 +14,7 @@ class ChurchController extends Controller
     {
         $churches = Church::with('members')->paginate(25);
         if(request()->is('api/*')){
-            return response()->json(['churches'=>$churches,'message'=>'Churches retrieved successfully'],200);
+            return response()->json(['churches'=>Church::all(),'message'=>'Churches retrieved successfully'],200);
         }else{
             return view('church.index', compact('churches'));
         }
