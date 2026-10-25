@@ -80,7 +80,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-between">
             {{ $users->onEachSide(2)->links() }}
         </div>
     </div>
