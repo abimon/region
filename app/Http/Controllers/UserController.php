@@ -257,6 +257,12 @@ class UserController extends Controller
             if (request('role') != null) {
                 $user->role = request('role');
             }
+            if (request()->file('avatar') != null) {
+                $file = request()->file('avatar');
+                $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
+                $file->move('storage/avatar', $fileName);
+                $user->avatar = '/storage/avatar/' . $fileName;
+            }
             if (request()->file('cover_image') != null) {
                 $file = request()->file('cover_image');
                 $fileName = uniqid() . time() . '.' . $file->getClientOriginalExtension();
