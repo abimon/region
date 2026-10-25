@@ -12,7 +12,7 @@ class ChurchController extends Controller
      */
     public function index()
     {
-        $churches = Church::all();
+        $churches = Church::with('members')->paginate(25);
         if(request()->is('api/*')){
             return response()->json(['churches'=>$churches,'message'=>'Churches retrieved successfully'],200);
         }else{

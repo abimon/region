@@ -19,6 +19,6 @@ class Church extends Model
     ];
     public function members()
     {
-        return $this->hasMany(User::class, 'institution','name');
+        return $this->hasMany(User::class, 'church_id','id');
     }
 }
