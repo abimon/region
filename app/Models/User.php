@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'contact',
-        'institution',
+        'church_id',
         'dob',
         'gender',
         'address',
