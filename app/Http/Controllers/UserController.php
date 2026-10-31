@@ -161,8 +161,8 @@ class UserController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
-            $church = Church::where('name', request('church'))->first();
             $password = uniqid();
+            $church = Church::where('name', request('church'))->first();
             $user = User::create([
                 'name' => request('name'),
                 'contact' => request('contact'),
